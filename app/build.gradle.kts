@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation("androidx.appcompat:appcompat:1.7.0")
     // ✅ Room — base de données locale
     // "2.6.1" = la version de Room qu'on utilise
     val room_version = "2.6.1"
@@ -69,6 +70,7 @@ dependencies {
     // ksp = génère le code Room automatiquement à la compilation
     ksp("androidx.room:room-compiler:$room_version")
 
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     // ✅ ViewModel + LiveData pour l'architecture MVVM
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
