@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     // URL de base de l'API OpenFoodFacts
-    private const val BASE_URL = "https://world.openfoodfacts.org/api/v0/"
+    private const val BASE_URL = "https://world.openfoodfacts.org/api/v2/"
 
     // Singleton Retrofit — créé une seule fois
     val api: OpenFoodFactsApi by lazy {

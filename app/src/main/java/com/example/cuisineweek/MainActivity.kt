@@ -10,10 +10,12 @@ import com.example.cuisineweek.R.*
 import com.example.cuisineweek.ui.CoursesActivity
 import com.example.cuisineweek.ui.RecetteAdapter
 import com.example.cuisineweek.viewmodel.RecetteViewModel
+import androidx.activity.enableEdgeToEdge
 
-private val Unit.btnVoirCourses: Int
 
 class MainActivity : AppCompatActivity() {
+
+
 
     // viewModels() = crée ou récupère le ViewModel
     // (survit aux rotations d'écran)
@@ -21,7 +23,9 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()  // ← ajoute cette ligne AVANT setContentView
         setContentView(layout.activity_main)
 // Ajoute un bouton dans activity_main.xml
 // puis dans MainActivity :
@@ -45,6 +49,11 @@ class MainActivity : AppCompatActivity() {
         // 3. On observe les données
         // observe = dès que la BDD change, ce bloc s'exécute automatiquement
         viewModel.toutesLesRecettes.observe(this) { recettes ->
+            adapter.updateRecettes(recettes)
+        }
+        viewModel.toutesLesRecettes.observe(this) { recettes ->
+            // Ajoute cette ligne
+            android.util.Log.d("RECETTES", "Nombre de recettes reçues : ${recettes.size}")
             adapter.updateRecettes(recettes)
         }
     }

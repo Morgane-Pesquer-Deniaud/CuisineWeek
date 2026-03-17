@@ -10,6 +10,8 @@ import com.example.cuisineweek.viewmodel.CoursesViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
+import androidx.activity.enableEdgeToEdge
+
 
 class CoursesActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class CoursesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_courses)
 
         val adapter = ArticleCoursesAdapter(

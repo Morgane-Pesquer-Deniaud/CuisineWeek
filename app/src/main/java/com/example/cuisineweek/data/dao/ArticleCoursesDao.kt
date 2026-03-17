@@ -7,7 +7,8 @@ import com.example.cuisineweek.data.entity.ArticleCourses
 @Dao
 interface ArticleCoursesDao {
 
-    @Query("SELECT * FROM articles_courses ORDER BY categorie ASC")
+    // ✅ On trie par nom à la place de categorie qui n'existe pas
+    @Query("SELECT * FROM articles_courses ORDER BY nom ASC")
     fun getAllArticles(): LiveData<List<ArticleCourses>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

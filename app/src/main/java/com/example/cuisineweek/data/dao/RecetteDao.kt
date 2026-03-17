@@ -29,4 +29,7 @@ interface RecetteDao {
 
     @Delete
     suspend fun delete(recette: Recette)
+    // Ajoute cette fonction dans RecetteDao
+    @Query("SELECT COUNT(*) FROM recettes")
+    suspend fun getCount(): Int
 }
