@@ -41,21 +41,25 @@ abstract class AppDatabase : RoomDatabase() {
         // Singleton : une seule instance de la BDD dans toute l'appli
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(
+                val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "cuisineweek_database"  // nom du fichier BDD sur le téléphone
+                    "cuisineweek_database"
                 )
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            // appelé UNE SEULE FOIS, au tout premier lancement
-                            INSTANCE?.let { database ->
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    DatabaseSeeder.seed(database)
-                                }
+                .fallbackToDestructiveMigration()  // ← efface et recrée la BDD si la structure change
+                .addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        INSTANCE?.let { database ->
+                            CoroutineScope(Dispatchers.IO).launch {
+                                DatabaseSeeder.seed(database)
                             }
                         }
-                    })
+                    }
+                })
+                .build()
+                INSTANCE = instance
+                return instance
+
                     .build()
                     .also { INSTANCE = it }
             }
