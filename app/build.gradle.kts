@@ -47,8 +47,7 @@ dependencies {
 
     // Bibliothèques de base Android — déjà présentes, on les garde
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.cardview)
 
     // ❌ On supprime tout ce qui concerne Compose
     // implementation(platform(libs.androidx.compose.bom))
@@ -74,4 +73,7 @@ dependencies {
     // ✅ ViewModel + LiveData pour l'architecture MVVM
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }

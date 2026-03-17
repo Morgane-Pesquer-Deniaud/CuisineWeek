@@ -1,4 +1,4 @@
-package com.example.cuisineweek.data.databases
+package com.example.cuisineweek.data.database
 
 
 import android.content.Context

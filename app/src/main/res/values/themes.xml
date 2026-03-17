@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.CuisineWeek" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.CuisineWeek" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#1E3A2F</item>
+        <item name="colorPrimaryDark">#1E3A2F</item>
+        <item name="colorAccent">#4A8C6A</item>
+    </style>
 </resources>
