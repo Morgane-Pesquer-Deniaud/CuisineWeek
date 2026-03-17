@@ -75,7 +75,17 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.activity:activity-ktx:1.9.0")
+    //Evite la perte des donnée
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0-rc01")
+    // Scanner de code-barre
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    // Retrofit - pour appeler des APIs
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Coroutines - pour les appels réseau asynchrones
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }
