@@ -21,9 +21,10 @@ import kotlinx.coroutines.launch
         Ingredient::class,
         RecetteIngredient::class,
         MenuSemaine::class,
-        MenuRecette::class
+        MenuRecette::class,
+        ArticleCourses::class  // ← ajoute cette ligne
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

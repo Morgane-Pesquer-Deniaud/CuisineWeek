@@ -48,6 +48,7 @@ dependencies {
     // Bibliothèques de base Android — déjà présentes, on les garde
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.cardview)
+    implementation(libs.material)
 
     // ❌ On supprime tout ce qui concerne Compose
     // implementation(platform(libs.androidx.compose.bom))
@@ -88,4 +89,9 @@ dependencies {
 
     // Coroutines - pour les appels réseau asynchrones
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+
+    //Style
+    implementation("com.google.android.material:material:1.11.0")
+
 }

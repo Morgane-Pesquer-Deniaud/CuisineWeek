@@ -6,8 +6,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cuisineweek.R.*
+import com.example.cuisineweek.ui.CoursesActivity
 import com.example.cuisineweek.ui.RecetteAdapter
 import com.example.cuisineweek.viewmodel.RecetteViewModel
+
+private val Unit.btnVoirCourses: Int
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,10 +19,17 @@ class MainActivity : AppCompatActivity() {
     // (survit aux rotations d'écran)
     private val viewModel: RecetteViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        setContentView(layout.activity_main)
+// Ajoute un bouton dans activity_main.xml
+// puis dans MainActivity :
+        findViewById<android.widget.Button>(id.btnVoirCourses).setOnClickListener {
+            startActivity(
+                android.content.Intent(this, CoursesActivity::class.java)
+            )
+        }
         // 1. On crée l'Adapter
         val adapter = RecetteAdapter { recette ->
             // Ce code s'exécute quand on clique sur une recette
@@ -26,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 2. On configure le RecyclerView
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewRecettes)
+        val recyclerView = findViewById<RecyclerView>(id.recyclerViewRecettes)
         recyclerView.adapter = adapter
         // LinearLayoutManager = liste verticale simple (une carte par ligne)
         recyclerView.layoutManager = LinearLayoutManager(this)
