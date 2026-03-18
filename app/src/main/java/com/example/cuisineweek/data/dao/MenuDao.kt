@@ -27,4 +27,28 @@ interface MenuDao {
         WHERE mr.menuId = :menuId AND mr.jour = :jour
     """)
     fun getRecettesDuJour(menuId: Int, jour: String): LiveData<List<Recette>>
+
+    // Récupère l'ID de la recette pour un repas précis
+    @Query("""
+    SELECT recetteId FROM menu_recettes 
+    WHERE menuId = :menuId 
+    AND jour = :jour 
+    AND typeRepas = :typeRepas 
+    LIMIT 1
+""")
+    suspend fun getRecetteIdPourRepas(
+        menuId: Int,
+        jour: String,
+        typeRepas: String
+    ): Int?
+
+    // Supprime un repas précis
+    @Query("""
+    DELETE FROM menu_recettes 
+    WHERE menuId = :menuId 
+    AND jour = :jour 
+    AND typeRepas = :typeRepas
+""")
+    suspend fun deleteMenuRecette(menuId: Int, jour: String, typeRepas: String)
+
 }

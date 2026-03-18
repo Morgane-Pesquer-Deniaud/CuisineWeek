@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F6F0">
+
+    <!-- Titre -->
+    <TextView
+        android:id="@+id/tvTitreMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:text="Mon menu 📅"
+        android:textColor="#1E3A2F"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Ligne navigation jour -->
+    <!-- Sélecteur de date -->
+    <LinearLayout
+        android:id="@+id/layoutNavigationJour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitreMenu">
+
+        <Button
+            android:id="@+id/btnJourPrecedent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textSize="18sp"
+            android:backgroundTint="#1E3A2F"
+            android:textColor="@android:color/white"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
+
+        <!-- Cliquable pour ouvrir le DatePicker -->
+        <TextView
+            android:id="@+id/tvJourActuel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Lundi 3 mars"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1E3A2F"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableEnd="@android:drawable/ic_menu_my_calendar"/>
+
+        <Button
+            android:id="@+id/btnJourSuivant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="→"
+            android:textSize="18sp"
+            android:backgroundTint="#1E3A2F"
+            android:textColor="@android:color/white"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
+
+    </LinearLayout>
+
+    <!-- Carte Midi -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMidi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutNavigationJour">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="☀️ Midi"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#4A8C6A"/>
+
+            <TextView
+                android:id="@+id/tvRecetteMidi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Ajouter un repas"
+                android:textSize="15sp"
+                android:textColor="#1E3A2F"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/layoutBtnsMidi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnChangerMidi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Changer"
+                    android:textSize="12sp"
+                    android:backgroundTint="#4A8C6A"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="4dp"/>
+
+                <Button
+                    android:id="@+id/btnSupprimerMidi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Supprimer"
+                    android:textSize="12sp"
+                    android:backgroundTint="#C0392B"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Carte Soir -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardSoir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/cardMidi">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌙 Soir"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#4A8C6A"/>
+
+            <TextView
+                android:id="@+id/tvRecetteSoir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Ajouter un repas"
+                android:textSize="15sp"
+                android:textColor="#1E3A2F"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/layoutBtnsSoir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnChangerSoir"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Changer"
+                    android:textSize="12sp"
+                    android:backgroundTint="#4A8C6A"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="4dp"/>
+
+                <Button
+                    android:id="@+id/btnSupprimerSoir"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Supprimer"
+                    android:textSize="12sp"
+                    android:backgroundTint="#C0392B"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Carte Matin (optionnelle) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMatin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/cardSoir">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌅 Matin (optionnel)"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#4A8C6A"/>
+
+            <TextView
+                android:id="@+id/tvRecetteMatin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Ajouter un repas"
+                android:textSize="15sp"
+                android:textColor="#1E3A2F"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/layoutBtnsMatin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnChangerMatin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Changer"
+                    android:textSize="12sp"
+                    android:backgroundTint="#4A8C6A"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="4dp"/>
+
+                <Button
+                    android:id="@+id/btnSupprimerMatin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Supprimer"
+                    android:textSize="12sp"
+                    android:backgroundTint="#C0392B"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

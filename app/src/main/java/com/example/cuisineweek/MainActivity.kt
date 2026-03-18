@@ -1,60 +1,40 @@
 package com.example.cuisineweek
 
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.cuisineweek.R.*
-import com.example.cuisineweek.ui.CoursesActivity
-import com.example.cuisineweek.ui.RecetteAdapter
-import com.example.cuisineweek.viewmodel.RecetteViewModel
 import androidx.activity.enableEdgeToEdge
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.example.cuisineweek.ui.CoursesFragment
+import com.example.cuisineweek.ui.RecettesFragment
+import com.example.cuisineweek.ui.SemaineFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-
-
-    // viewModels() = crée ou récupère le ViewModel
-    // (survit aux rotations d'écran)
-    private val viewModel: RecetteViewModel by viewModels()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()  // ← ajoute cette ligne AVANT setContentView
-        setContentView(layout.activity_main)
-// Ajoute un bouton dans activity_main.xml
-// puis dans MainActivity :
-        findViewById<android.widget.Button>(id.btnVoirCourses).setOnClickListener {
-            startActivity(
-                android.content.Intent(this, CoursesActivity::class.java)
-            )
-        }
-        // 1. On crée l'Adapter
-        val adapter = RecetteAdapter { recette ->
-            // Ce code s'exécute quand on clique sur une recette
-            Toast.makeText(this, "Cliqué : ${recette.nom}", Toast.LENGTH_SHORT).show()
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
+
+        // Fragment affiché au démarrage
+        if (savedInstanceState == null) {
+            chargerFragment(RecettesFragment())
         }
 
-        // 2. On configure le RecyclerView
-        val recyclerView = findViewById<RecyclerView>(id.recyclerViewRecettes)
-        recyclerView.adapter = adapter
-        // LinearLayoutManager = liste verticale simple (une carte par ligne)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_semaine  -> chargerFragment(SemaineFragment())
+                R.id.nav_recettes -> chargerFragment(RecettesFragment())
+                R.id.nav_courses  -> chargerFragment(CoursesFragment())
+            }
+            true
+        }
+    }
 
-        // 3. On observe les données
-        // observe = dès que la BDD change, ce bloc s'exécute automatiquement
-        viewModel.toutesLesRecettes.observe(this) { recettes ->
-            adapter.updateRecettes(recettes)
-        }
-        viewModel.toutesLesRecettes.observe(this) { recettes ->
-            // Ajoute cette ligne
-            android.util.Log.d("RECETTES", "Nombre de recettes reçues : ${recettes.size}")
-            adapter.updateRecettes(recettes)
-        }
+    private fun chargerFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
     }
 }
