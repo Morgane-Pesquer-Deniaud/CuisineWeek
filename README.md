@@ -45,13 +45,7 @@ git --version
 Ouvre un terminal puis exécute :
 
 ```bash
-git clone https://github.com/UTILISATEUR/NOM_DU_DEPOT.git
-```
-
-Exemple :
-
-```bash
-git clone https://github.com/monprofil/MyKotlinApp.git
+https://github.com/Morgane-Pesquer-Deniaud/CuisineWeek.git
 ```
 
 Ensuite :
@@ -305,23 +299,9 @@ Activer :
 
 ---
 
-# 11. Structure classique d’un projet Kotlin Android
-
-```text
-app/
- ├── src/
- │    ├── main/
- │    │    ├── java/
- │    │    ├── res/
- │    │    └── AndroidManifest.xml
- │
- ├── build.gradle
- └── proguard-rules.pro
-```
-
 ---
 
-# 12. Commandes utiles
+# 11. Commandes utiles
 
 ## Compiler le projet
 
@@ -354,31 +334,3 @@ app/
 ```
 
 ---
-
-# 13. Bonnes pratiques
-
-* Utiliser un README clair
-* Séparer la logique métier de l’UI
-* Utiliser Git branches
-* Ajouter un fichier `.gitignore` Android
-* Stocker les clés API dans `local.properties`
-* Utiliser `ViewModel` et `Jetpack Compose` si possible
-
----
-
-# 14. Exemple de README GitHub minimal
-
-````md
-# MyKotlinApp
-
-Application Android développée en Kotlin.
-
-## Installation
-
-```bash
-git clone https://github.com/user/repo.git
-```
-
-## Lancement
-
-Ouvrir le projet avec Android Studio puis lancer l’émulateur.
