@@ -1,231 +1,403 @@
-_BTS SIO - Option SLAM_
+````md
+# Guide d’installation d’une application mobile Kotlin depuis GitHub
 
-_Année 2025 / 2026_
+## Objectif
 
-#** CuisineWeek**  
-Application Mobile Android
+Ce guide explique comment récupérer, configurer et lancer une application Android développée en Kotlin à partir d’un dépôt GitHub.
 
-**CAHIER DES CHARGES**
+---
 
-| **Projet**   | CuisineWeek - Recettes & Liste de courses |
-| ------------ | ----------------------------------------- |
-| **Type**     | Application mobile Android (Kotlin)       |
-| **Contexte** | Projet de fin de BTS SIO SLAM             |
-| **Date**     | Mars 2026                                 |
-| **Version**  | v1.0                                      |
+# 1. Prérequis
 
-## **1\. Présentation du projet**
+Avant de commencer, installe les outils suivants.
 
-### **1.1 Situation professionnelle**
+## Outils nécessaires
 
-**Contexte**
+### Android Studio
 
-Une startup spécialisée dans le bien-être alimentaire souhaite proposer une application mobile permettant à ses utilisateurs de planifier leurs repas de la semaine et de générer automatiquement une liste de courses optimisée. L'objectif est de réduire le gaspillage alimentaire, de simplifier les achats hebdomadaires et d'aider les utilisateurs à mieux s'organiser en cuisine.
+Télécharge et installe Android Studio :
 
-### **1.2 Objectifs généraux**
+- Site officiel : https://developer.android.com/studio
 
-- Permettre aux utilisateurs de consulter un catalogue de recettes de cuisine
-- Offrir la possibilité de planifier un menu sur la semaine (petit-déjeuner, déjeuner, dîner)
-- Générer automatiquement une liste de courses basée sur le menu sélectionné
-- Permettre à l'utilisateur d'ajouter ses propres recettes personnalisées
-- Estimer une tendance de prix pour la liste de courses générée
+Pendant l’installation :
 
-### **1.3 Public cible**
+- Installer le SDK Android
+- Installer Android Virtual Device (AVD)
+- Installer Gradle
 
-L'application s'adresse à toute personne souhaitant organiser ses repas de façon simple et efficace, sans nécessiter de compte utilisateur. Toutes les données sont stockées localement sur l'appareil Android de l'utilisateur.
+---
 
-## **2\. Périmètre fonctionnel**
+### Git
 
-### **2.1 Fonctionnalités principales (MVP)**
+Télécharge Git :
 
-Les fonctionnalités suivantes constituent le cœur de l'application et doivent être livrées en priorité :
+- Site officiel : https://git-scm.com/
 
-**F01 - Catalogue de recettes**
+Vérifie l’installation :
 
-- Affichage d'une liste de recettes avec photo, nom, durée et difficulté
-- Consultation du détail d'une recette (ingrédients, étapes, nombre de personnes)
-- Filtrage par catégorie (entrée, plat, dessert, végétarien, rapide…)
-- Barre de recherche par mot-clé sur le nom ou les ingrédients
+```bash
+git --version
+````
 
-**F02 - Gestion du menu de la semaine**
+---
 
-- Affichage d'un planning hebdomadaire (Lundi → Dimanche)
-- Ajout d'une recette à un jour et un type de repas (matin / midi / soir)
-- Suppression ou remplacement d'une recette dans le menu
-- Persistance du menu en stockage local (Room Database)
+# 2. Cloner le dépôt GitHub
 
-**F03 - Génération de la liste de courses**
+Ouvre un terminal puis exécute :
 
-- Calcul automatique des ingrédients nécessaires à partir du menu sélectionné
-- Regroupement et addition des quantités pour les ingrédients communs
-- Adaptation des quantités selon le nombre de personnes paramétré
-- Affichage de la liste triée par catégorie d'ingrédient
-- Possibilité de cocher les articles déjà achetés
-- Partage de la liste (export texte via Android Intent - SMS, e-mail, etc.)
+```bash
+git clone https://github.com/UTILISATEUR/NOM_DU_DEPOT.git
+```
 
-**F04 - Ajout de recettes personnalisées**
+Exemple :
 
-- Formulaire de création d'une recette (nom, description, temps, difficulté)
-- Ajout d'ingrédients avec quantité et unité
-- Saisie des étapes de préparation
-- Photo optionnelle depuis la galerie ou l'appareil photo
-- Modification et suppression d'une recette personnalisée
+```bash
+git clone https://github.com/monprofil/MyKotlinApp.git
+```
 
-### **2.2 Fonctionnalités secondaires (si temps disponible)**
+Ensuite :
 
-Ces fonctionnalités enrichissent l'expérience utilisateur mais ne bloquent pas la livraison du MVP :
+```bash
+cd NOM_DU_DEPOT
+```
 
-**F05 - Estimation du prix de la liste de courses**
+---
 
-- Affichage d'un prix indicatif par ingrédient (saisi manuellement ou via API OpenFoodFacts)
-- Calcul du coût total estimé de la liste de courses
-- Évolution visuelle du budget semaine après semaine (graphique tendance)
-- Note : cette fonctionnalité dépend de la disponibilité des données de prix - l'API OpenFoodFacts est gratuite mais ne couvre pas tous les produits
+# 3. Ouvrir le projet dans Android Studio
 
-## **3\. Contraintes techniques**
+1. Ouvrir Android Studio
+2. Cliquer sur :
 
-### **3.1 Stack technologique**
+```text
+Open
+```
 
-| **Composant**          | **Technologie choisie**        | **Justification**                                      |
-| ---------------------- | ------------------------------ | ------------------------------------------------------ |
-| Langage                | Kotlin                         | Enseigné en cours - natif Android                      |
-| IDE                    | Android Studio                 | Environnement officiel Android                         |
-| Base de données locale | Room Database (SQLite)         | Bibliothèque Android Jetpack, stable et performante    |
-| Architecture           | MVVM (Model-View-ViewModel)    | Séparation logique / interface, recommandée par Google |
-| Navigation             | Navigation Component (Jetpack) | Gestion des écrans et transitions                      |
-| Listes & UI            | RecyclerView + ViewBinding     | Affichage dynamique des recettes et ingrédients        |
-| Partage                | Android Intent (ACTION_SEND)   | Partage natif sans librairie externe                   |
+3. Sélectionner le dossier du projet cloné
+4. Attendre la synchronisation Gradle
 
-### **3.2 Contraintes de stockage**
+Android Studio peut afficher :
 
-- Toutes les données sont stockées localement sur l'appareil (pas de serveur distant)
-- Les recettes de base sont pré-chargées lors de la première installation (données seed)
-- Les recettes personnalisées et le menu hebdomadaire sont sauvegardés en base Room
-- La liste de courses est générée dynamiquement (pas de persistance nécessaire)
+```text
+Gradle Sync in Progress
+```
 
-### **3.3 Contraintes de compatibilité**
+Attendre la fin complète.
 
-- Version Android minimale : Android 8.0 (API 26)
-- Résolution cible : smartphones standards (360dp et plus)
-- Application en mode portrait uniquement dans un premier temps
+---
 
-## **4\. User Stories**
+# 4. Configurer le SDK Android
 
-Les user stories suivent le format : En tant que \[rôle\], je veux \[action\] afin de \[bénéfice\].
+Si Android Studio demande un SDK manquant :
 
-| **ID** | **Fonctionnalité** | **User Story**                                                                                                      | **Critère d'acceptation**                                                                             |
-| ------ | ------------------ | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| US01   | Catalogue          | En tant qu'utilisateur, je veux voir la liste des recettes disponibles afin de choisir ce que je vais cuisiner.     | La liste s'affiche avec photo, nom, durée et difficulté. La liste est scrollable.                     |
-| US02   | Catalogue          | En tant qu'utilisateur, je veux consulter le détail d'une recette afin de connaître les ingrédients et les étapes.  | Le détail affiche tous les ingrédients avec quantités et toutes les étapes numérotées.                |
-| US03   | Catalogue          | En tant qu'utilisateur, je veux filtrer les recettes par catégorie afin de trouver rapidement ce que je cherche.    | Les filtres sont cliquables. La liste se met à jour instantanément.                                   |
-| US04   | Catalogue          | En tant qu'utilisateur, je veux rechercher une recette par mot-clé afin de la retrouver facilement.                 | La recherche fonctionne sur le nom et les ingrédients. Les résultats s'affichent en temps réel.       |
-| US05   | Menu               | En tant qu'utilisateur, je veux ajouter une recette à un jour du menu afin de planifier mes repas.                  | Je peux choisir le jour et le type de repas. La recette apparaît dans le planning.                    |
-| US06   | Menu               | En tant qu'utilisateur, je veux visualiser mon menu de la semaine afin d'avoir une vue d'ensemble.                  | Le planning semaine est affiché de façon claire avec toutes les recettes ajoutées.                    |
-| US07   | Courses            | En tant qu'utilisateur, je veux générer ma liste de courses depuis le menu afin d'éviter d'oublier des ingrédients. | Les ingrédients sont regroupés et les quantités additionnées. Le tri par catégorie est appliqué.      |
-| US08   | Courses            | En tant qu'utilisateur, je veux cocher les articles achetés afin de suivre mes achats en magasin.                   | Chaque article est cochable. Les articles cochés sont visuellement différenciés.                      |
-| US09   | Courses            | En tant qu'utilisateur, je veux partager ma liste de courses afin de l'envoyer à quelqu'un.                         | Un bouton de partage ouvre le menu de partage Android avec la liste en texte.                         |
-| US10   | Perso              | En tant qu'utilisateur, je veux créer ma propre recette afin de l'ajouter à mes favoris.                            | Le formulaire permet de saisir tous les champs. La recette est sauvegardée et apparaît dans la liste. |
-| US11   | Perso              | En tant qu'utilisateur, je veux modifier ou supprimer une recette personnalisée afin de la corriger.                | La modification pré-remplit le formulaire. La suppression demande une confirmation.                   |
-| US12   | Prix\*             | En tant qu'utilisateur, je veux voir le coût estimé de ma liste de courses afin de gérer mon budget.                | Un total estimé s'affiche en bas de la liste de courses. (Fonctionnalité secondaire)                  |
-
-_\* Fonctionnalité secondaire_
+1. Aller dans :
 
-## **5\. Architecture de données (Room Database)**
+```text
+File > Settings > Android SDK
+```
 
-### **5.1 Schéma des entités**
+2. Installer :
 
-| **Table**         | **Champs principaux**                                                                                                 | **Type de données**                                   | **Rôle**                                                |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------- |
-| Recette           | id, nom, description, temps_prep, temps_cuisson, nb_personnes, difficulte, categorie_id, image_uri, est_personnalisee | INT, TEXT, TEXT, INT, INT, INT, TEXT, INT, TEXT, BOOL | Stocke toutes les recettes (catalogue + personnalisées) |
-| Categorie         | id, nom, icone                                                                                                        | INT, TEXT, TEXT                                       | Classifie les recettes (plat, dessert, végétarien…)     |
-| Ingredient        | id, nom, unite_defaut, categorie_courses                                                                              | INT, TEXT, TEXT, TEXT                                 | Référentiel des ingrédients disponibles                 |
-| RecetteIngredient | recette_id (FK), ingredient_id (FK), quantite, unite                                                                  | INT, INT, REAL, TEXT                                  | Table de liaison recette ↔ ingrédient avec quantités    |
-| MenuSemaine       | id, semaine_du, nb_personnes                                                                                          | INT, DATE, INT                                        | Représente un menu pour une semaine donnée              |
-| MenuRecette       | id, menu_id (FK), recette_id (FK), jour, type_repas                                                                   | INT, INT, INT, TEXT, TEXT                             | Table de liaison menu ↔ recette avec jour et repas      |
+* Android SDK Platform
+* Android SDK Build-Tools
+* Android Emulator
 
-### **5.2 Génération de la liste de courses**
+---
 
-**Logique de calcul**
+# 5. Vérifier les dépendances Gradle
 
-La liste de courses n'est pas stockée en base de données. Elle est calculée dynamiquement à partir des recettes présentes dans le menu actif. Pour chaque recette du menu, on récupère ses ingrédients avec leurs quantités, on les regroupe par ingrédient, on additionne les quantités (en tenant compte du nombre de personnes), puis on trie le résultat par catégorie de courses (fruits & légumes, produits frais, épicerie, etc.).
+Le projet utilise généralement deux fichiers importants :
 
-## **6\. Écrans et navigation**
+## build.gradle (Project)
 
-### **6.1 Liste des écrans**
+Exemple :
 
-| **N°** | **Nom de l'écran**       | **Description**                                                                                 |
-| ------ | ------------------------ | ----------------------------------------------------------------------------------------------- |
-| E01    | Accueil / Menu semaine   | Vue principale - affichage du planning de la semaine avec les recettes assignées à chaque repas |
-| E02    | Catalogue de recettes    | Liste scrollable des recettes avec filtres par catégorie et barre de recherche                  |
-| E03    | Détail d'une recette     | Affichage complet : photo, ingrédients, étapes, temps, difficulté, bouton "Ajouter au menu"     |
-| E04    | Ajouter au menu          | Dialogue ou écran de sélection du jour et du type de repas                                      |
-| E05    | Liste de courses         | Liste des ingrédients générée, regroupée par catégorie, avec cases à cocher et bouton partage   |
-| E06    | Mes recettes             | Liste des recettes personnalisées de l'utilisateur avec accès à la création/modification        |
-| E07    | Créer / Modifier recette | Formulaire complet de création ou d'édition d'une recette personnalisée                         |
+```kotlin
+plugins {
+    id("com.android.application") version "8.2.0" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
+}
+```
 
-### **6.2 Navigation principale**
+---
 
-L'application utilise une Bottom Navigation Bar avec 4 onglets principaux :
+## build.gradle (Module)
 
-- Semaine (E01) - Accès au planning hebdomadaire
-- Recettes (E02) - Catalogue de toutes les recettes
-- Courses (E05) - Liste de courses générée
-- Mes recettes (E06) - Recettes personnalisées
+Exemple :
 
-## **7\. Planification du développement**
+```kotlin
+dependencies {
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+}
+```
 
-### **7.1 Découpage en sprints**
+Si nécessaire :
 
-| **Sprint** | **Durée** | **Tâches**                                                                                                                           | **Livrable**              |
-| ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
-| Sprint 1   | 1 semaine | Mise en place du projet Android Studio, architecture MVVM, création de la base de données Room, insertion des données de test (seed) | BDD fonctionnelle         |
-| Sprint 2   | 1 semaine | Écrans Catalogue (E02) et Détail recette (E03) : RecyclerView, filtres, recherche, navigation                                        | Consultation des recettes |
-| Sprint 3   | 1 semaine | Écran Menu semaine (E01 + E04) : planning, ajout et suppression de recettes par jour/repas                                           | Menu hebdomadaire         |
-| Sprint 4   | 1 semaine | Écran Liste de courses (E05) : génération dynamique, cases à cocher, partage Android Intent                                          | Liste de courses          |
-| Sprint 5   | 1 semaine | Écrans recettes personnalisées (E06 + E07) : formulaire, photo, CRUD complet                                                         | Recettes perso            |
-| Sprint 6\* | 1 semaine | Estimation des prix : saisie manuelle ou intégration API OpenFoodFacts, graphique tendance                                           | Prix (optionnel)          |
-| Sprint 7   | 1 semaine | Tests, corrections de bugs, polish UI, préparation du dossier BTS                                                                    | Version finale            |
+```text
+File > Sync Project with Gradle Files
+```
 
-_\* Sprint optionnel selon disponibilité_
+---
 
-## **8\. Critères de réussite**
+# 6. Configurer un émulateur Android
 
-### **8.1 Critères fonctionnels**
+## Créer un appareil virtuel
 
-- L'utilisateur peut consulter au moins 10 recettes pré-chargées
-- L'utilisateur peut construire un menu complet sur 7 jours
-- La liste de courses générée regroupe correctement les doublons d'ingrédients
-- L'utilisateur peut ajouter, modifier et supprimer une recette personnalisée
-- La liste de courses peut être partagée via Android Intent
+1. Ouvrir :
 
-### **8.2 Critères techniques**
+```text
+Tools > Device Manager
+```
 
-- L'application ne plante pas (aucun crash sur les parcours utilisateurs principaux)
-- Les données persistent après fermeture de l'application (Room Database)
-- L'architecture MVVM est respectée (séparation ViewModel / Repository / DAO)
-- Le code est versionné avec Git
+2. Cliquer sur :
 
-### **8.3 Critères pour le dossier BTS**
+```text
+Create Device
+```
 
-- Rédaction d'un dossier projet complet (contexte, analyse, conception, réalisation, tests)
-- Maquettes des écrans incluses (Figma ou draw.io)
-- Schéma de base de données (MCD ou diagramme de classes)
-- Jeux de tests documentés
-- Démonstration fonctionnelle lors de la présentation orale
+3. Choisir un modèle :
 
-## **9\. Glossaire**
+* Pixel 6
+* Pixel 7
+* Pixel Tablet
 
-| **Terme**      | **Définition**                                                                     |
-| -------------- | ---------------------------------------------------------------------------------- |
-| MVP            | Minimum Viable Product - version minimale fonctionnelle du produit                 |
-| MVVM           | Model-View-ViewModel - pattern d'architecture Android recommandé par Google        |
-| Room Database  | Bibliothèque Android Jetpack offrant une couche d'abstraction sur SQLite           |
-| DAO            | Data Access Object - interface définissant les requêtes SQL dans Room              |
-| RecyclerView   | Composant Android pour afficher des listes dynamiques et scrollables               |
-| Seed           | Données initiales insérées en base au premier lancement de l'application           |
-| Android Intent | Mécanisme Android permettant la communication entre applications (ex : partage)    |
-| OpenFoodFacts  | Base de données ouverte sur les produits alimentaires, accessible via API gratuite |
+4. Télécharger une image système Android
+5. Finaliser la création
 
-**Note finale**
+---
 
-Ce cahier des charges est un document vivant. Il peut être mis à jour au fil du développement si de nouvelles contraintes apparaissent ou si des fonctionnalités sont repriorisées.
+# 7. Lancer l’application
+
+1. Sélectionner l’émulateur
+2. Cliquer sur :
+
+```text
+Run ▶
+```
+
+Ou utiliser le raccourci :
+
+```text
+Shift + F10
+```
+
+Android Studio va :
+
+* Compiler le projet
+* Installer l’application
+* Lancer l’application
+
+---
+
+# 8. Lancer sur un téléphone Android réel
+
+## Activer le mode développeur
+
+Sur le téléphone :
+
+```text
+Paramètres > À propos du téléphone > Numéro de build
+```
+
+Appuyer 7 fois.
+
+---
+
+## Activer le débogage USB
+
+```text
+Paramètres > Options développeur > Débogage USB
+```
+
+---
+
+## Connecter le téléphone
+
+1. Brancher le téléphone en USB
+2. Autoriser le débogage
+3. Sélectionner l’appareil dans Android Studio
+4. Cliquer sur Run
+
+---
+
+# 9. Générer un APK
+
+## APK Debug
+
+Dans Android Studio :
+
+```text
+Build > Build APK(s)
+```
+
+Le fichier sera généré dans :
+
+```text
+app/build/outputs/apk/debug/
+```
+
+---
+
+## APK Release
+
+```text
+Build > Generate Signed Bundle / APK
+```
+
+Créer ou sélectionner une clé de signature.
+
+---
+
+# 10. Résolution des erreurs fréquentes
+
+## Erreur Gradle
+
+Solution :
+
+```bash
+./gradlew clean
+```
+
+Puis :
+
+```bash
+./gradlew build
+```
+
+---
+
+## SDK introuvable
+
+Configurer le chemin du SDK :
+
+```text
+File > Settings > Android SDK
+```
+
+---
+
+## Dépendance introuvable
+
+Vérifier :
+
+* La connexion internet
+* Les versions Gradle
+* Le fichier repositories
+
+Exemple :
+
+```kotlin
+repositories {
+    google()
+    mavenCentral()
+}
+```
+
+---
+
+## Émulateur lent
+
+Activer :
+
+* Virtualisation BIOS
+* Accélération matérielle
+* RAM supplémentaire
+
+---
+
+# 11. Structure classique d’un projet Kotlin Android
+
+```text
+app/
+ ├── src/
+ │    ├── main/
+ │    │    ├── java/
+ │    │    ├── res/
+ │    │    └── AndroidManifest.xml
+ │
+ ├── build.gradle
+ └── proguard-rules.pro
+```
+
+---
+
+# 12. Commandes utiles
+
+## Compiler le projet
+
+```bash
+./gradlew build
+```
+
+---
+
+## Nettoyer le projet
+
+```bash
+./gradlew clean
+```
+
+---
+
+## Lancer les tests
+
+```bash
+./gradlew test
+```
+
+---
+
+## Installer l’application
+
+```bash
+./gradlew installDebug
+```
+
+---
+
+# 13. Bonnes pratiques
+
+* Utiliser un README clair
+* Séparer la logique métier de l’UI
+* Utiliser Git branches
+* Ajouter un fichier `.gitignore` Android
+* Stocker les clés API dans `local.properties`
+* Utiliser `ViewModel` et `Jetpack Compose` si possible
+
+---
+
+# 14. Exemple de README GitHub minimal
+
+````md
+# MyKotlinApp
+
+Application Android développée en Kotlin.
+
+## Installation
+
+```bash
+git clone https://github.com/user/repo.git
+```
+
+## Lancement
+
+Ouvrir le projet avec Android Studio puis lancer l’émulateur.
+````
+
+---
+
+# Conclusion
+
+L’installation d’une application Kotlin Android suit toujours la même logique :
+
+1. Installer les outils
+2. Cloner le dépôt GitHub
+3. Ouvrir dans Android Studio
+4. Synchroniser Gradle
+5. Lancer sur émulateur ou téléphone
+
+Une fois cette base maîtrisée, tu peux automatiser le build, le déploiement et les tests avec GitHub Actions, Firebase ou Docker Android.
+
+```
+```
