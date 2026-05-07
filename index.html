@@ -166,7 +166,6 @@
       <li><a href="#classes">Classes</a></li>
       <li><a href="#mld">Modèle Logique de Données (MLD)</a></li>
       <li><a href="#usecases">Diagramme de cas d'utilisation</a></li>
-      <li><a href="#flux">Flux de données</a></li>
       <li><a href="#api">Intégration API OpenFoodFacts</a></li>
       <li><a href="#stack">Stack technique</a></li>
     </ol>
@@ -612,51 +611,8 @@ MENU_SEMAINE
       </div>
     </div>
   </div>
-
-  <!-- ═══════════════════════ 8. FLUX DE DONNÉES ═══════════════════════ -->
-  <div class="section" id="flux">
-    <div class="section-title">8. Flux de données — Scan code-barre</div>
-    <p class="section-sub">Séquence complète d'un scan jusqu'à l'affichage dans la liste</p>
-
-    <div class="flow-steps">
-      <div class="flow-step"><strong>1. UI</strong>Clic bouton Scanner (FAB)</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>2. ZXing</strong>Caméra ouverte, scan code-barre</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>3. ViewModel</strong>ajouterDepuisScan(barcode)</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>4. Retrofit</strong>GET /product/{barcode}.json</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>5. API</strong>OpenFoodFacts répond en JSON</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>6. Gson</strong>Désérialisation → OpenFoodFactsResponse</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>7. DAO</strong>insert(ArticleCourses)</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>8. LiveData</strong>Mise à jour automatique → RecyclerView</div>
-    </div>
-
-    <h3>Flux de données — Ajout d'une recette au menu</h3>
-    <div class="flow-steps">
-      <div class="flow-step"><strong>1. UI</strong>Clic "+ Ajouter un repas"</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>2. Dialog</strong>SelectionRecetteDialog s'ouvre</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>3. UI</strong>Clic sur une recette</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>4. ViewModel</strong>ajouterRecette(id, typeRepas)</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>5. DAO</strong>getOuCreerMenuId()</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>6. DAO</strong>insertMenuRecette()</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>7. LiveData</strong>recetteMidi/Soir/Matin mis à jour</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><strong>8. UI</strong>Nom de la recette affiché</div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════ 9. API ═══════════════════════ -->
+  
+  <!-- ═══════════════════════ 6. API ═══════════════════════ -->
   <div class="section" id="api">
     <div class="section-title">9. Intégration API OpenFoodFacts</div>
     <p class="section-sub">Documentation de l'intégration de l'API externe</p>
