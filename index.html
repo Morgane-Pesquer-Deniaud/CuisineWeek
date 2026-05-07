@@ -163,10 +163,8 @@
     <ol>
       <li><a href="#presentation">Présentation du projet</a></li>
       <li><a href="#architecture">Architecture MVVM</a></li>
-      <li><a href="#classes">Diagramme de classes</a></li>
-      <li><a href="#mcd">Modèle Conceptuel de Données (MCD)</a></li>
+      <li><a href="#classes">Classes</a></li>
       <li><a href="#mld">Modèle Logique de Données (MLD)</a></li>
-      <li><a href="#bdd">Schéma de base de données</a></li>
       <li><a href="#usecases">Diagramme de cas d'utilisation</a></li>
       <li><a href="#flux">Flux de données</a></li>
       <li><a href="#api">Intégration API OpenFoodFacts</a></li>
@@ -258,7 +256,7 @@
 
   <!-- ═══════════════════════ 3. DIAGRAMME DE CLASSES ═══════════════════════ -->
   <div class="section" id="classes">
-    <div class="section-title">3. Diagramme de classes</div>
+    <div class="section-title">3. Classes</div>
     <p class="section-sub">Représentation UML des classes principales et leurs relations</p>
 
     <h3>Entités (data/entity)</h3>
@@ -435,261 +433,148 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════ 4. MCD ═══════════════════════ -->
-  <div class="section" id="mcd">
-    <div class="section-title">4. Modèle Conceptuel de Données (MCD)</div>
-    <p class="section-sub">Représentation Merise des entités et associations</p>
 
-    <div style="background:var(--green-ghost);border-left:4px solid var(--green);border-radius:10px;padding:20px 24px;margin:16px 0;">
-      <div style="font-weight:700;color:var(--green);margin-bottom:8px;font-size:1rem;">📊 Schéma MCD disponible dans Excalidraw</div>
-      <p style="margin:0;color:var(--ink-mid);">Le MCD complet (entités, associations avec cardinalités, clés primaires/étrangères) a été réalisé avec Excalidraw pour un rendu propre et précis. Il représente les entités suivantes et leurs relations :</p>
-      <ul style="margin-top:10px;padding-left:20px;color:var(--ink-mid);font-size:.9rem;">
-        <li><strong>RECETTE</strong> ↔ <strong>INGREDIENT</strong> via l'association <em>contient</em> (0,N — 0,N) avec quantite et unite</li>
-        <li><strong>RECETTE</strong> → <strong>CATEGORIE</strong> via l'association <em>appartient</em> (0,N — 1,N)</li>
-        <li><strong>RECETTE</strong> ↔ <strong>MENU_SEMAINE</strong> via l'association <em>planifie</em> (0,N — 1,N) avec jour et typeRepas</li>
-        <li><strong>ARTICLE_COURSES</strong> alimenté par l'<em>API OpenFoodFacts</em> (source externe)</li>
-      </ul>
-    </div>
 
-    <div style="display:none"><svg viewBox="0 0 980 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:980px;display:block;margin:0 auto;">
-        <defs>
-          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L8,3 z" fill="#4A8C6A"/>
-          </marker>
-        </defs>
+  <!-- ═══════════════════════ 4. MLD ═══════════════════════ -->
+<div class="section" id="mld">
+  <div class="section-title">5. Modèle Logique de Données (MLD)</div>
+  <p class="section-sub">Traduction du modèle conceptuel en tables relationnelles pour la base de données CuisineWeek</p>
 
-        <!-- ── RECETTE ── -->
-        <rect x="360" y="20" width="200" height="170" rx="4" fill="white" stroke="#1E3A2F" stroke-width="2"/>
-        <rect x="360" y="20" width="200" height="28" rx="4" fill="#1E3A2F"/>
-        <text x="460" y="39" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Inter">RECETTE</text>
-        <text x="370" y="66" fill="#C0392B" font-size="11" font-family="JetBrains Mono">PK id</text>
-        <text x="370" y="82" fill="#333" font-size="11" font-family="JetBrains Mono">nom</text>
-        <text x="370" y="98" fill="#333" font-size="11" font-family="JetBrains Mono">description</text>
-        <text x="370" y="114" fill="#333" font-size="11" font-family="JetBrains Mono">tempsPrep</text>
-        <text x="370" y="130" fill="#333" font-size="11" font-family="JetBrains Mono">tempsCuisson</text>
-        <text x="370" y="146" fill="#333" font-size="11" font-family="JetBrains Mono">nbPersonnes</text>
-        <text x="370" y="162" fill="#333" font-size="11" font-family="JetBrains Mono">difficulte</text>
-        <text x="370" y="178" fill="#E67E22" font-size="11" font-family="JetBrains Mono">FK categorieId</text>
+  <div class="code-block">
+<span class="code-comment">-- Tables relationnelles de la base CuisineWeek</span>
 
-        <!-- ── CATEGORIE ── -->
-        <rect x="700" y="60" width="180" height="90" rx="4" fill="white" stroke="#1E3A2F" stroke-width="2"/>
-        <rect x="700" y="60" width="180" height="28" rx="4" fill="#1E3A2F"/>
-        <text x="790" y="79" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Inter">CATEGORIE</text>
-        <text x="710" y="106" fill="#C0392B" font-size="11" font-family="JetBrains Mono">PK id</text>
-        <text x="710" y="122" fill="#333" font-size="11" font-family="JetBrains Mono">nom</text>
-        <text x="710" y="138" fill="#333" font-size="11" font-family="JetBrains Mono">icone</text>
+<span class="code-keyword">CATEGORIE</span> (
+    <u><b>id</b></u>,
+    nom
+)
 
-        <!-- ── INGREDIENT ── -->
-        <rect x="30" y="60" width="190" height="106" rx="4" fill="white" stroke="#1E3A2F" stroke-width="2"/>
-        <rect x="30" y="60" width="190" height="28" rx="4" fill="#1E3A2F"/>
-        <text x="125" y="79" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Inter">INGREDIENT</text>
-        <text x="40" y="106" fill="#C0392B" font-size="11" font-family="JetBrains Mono">PK id</text>
-        <text x="40" y="122" fill="#333" font-size="11" font-family="JetBrains Mono">nom</text>
-        <text x="40" y="138" fill="#333" font-size="11" font-family="JetBrains Mono">uniteDefaut</text>
-        <text x="40" y="154" fill="#333" font-size="11" font-family="JetBrains Mono">categorieCourses</text>
+<span class="code-keyword">RECETTE</span> (
+    <u><b>id</b></u>,
+    nom,
+    description,
+    tempsPrep,
+    tempsCuisson,
+    nbPersonnes,
+    difficulte,
+    #categorieId → CATEGORIE.id
+)
 
-        <!-- ── ASSOC RECETTE-INGREDIENT (losange) ── -->
-        <polygon points="260,130 310,100 360,130 310,160" fill="#EEF6F1" stroke="#4A8C6A" stroke-width="2"/>
-        <text x="310" y="127" text-anchor="middle" fill="#1E3A2F" font-size="11" font-family="Inter" font-weight="bold">contient</text>
-        <text x="310" y="142" text-anchor="middle" fill="#666" font-size="9" font-family="Inter">quantite, unite</text>
-        <!-- lignes association -->
-        <line x1="220" y1="130" x2="260" y2="130" stroke="#4A8C6A" stroke-width="1.5"/>
-        <line x1="360" y1="130" x2="360" y2="130" stroke="#4A8C6A" stroke-width="1.5"/>
-        <text x="230" y="122" fill="#666" font-size="10">0,N</text>
-        <text x="340" y="122" fill="#666" font-size="10">0,N</text>
+<span class="code-keyword">INGREDIENT</span> (
+    <u><b>id</b></u>,
+    nom,
+    unite
+)
 
-        <!-- ── ASSOC RECETTE-CATEGORIE ── -->
-        <line x1="560" y1="105" x2="700" y2="105" stroke="#4A8C6A" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="600" y="98" fill="#666" font-size="10">0,1</text>
-        <text x="685" y="98" fill="#666" font-size="10">1,N</text>
-        <text x="615" y="118" fill="#4A8C6A" font-size="10" font-style="italic">appartient</text>
+<span class="code-keyword">RECETTE_INGREDIENT</span> (
+    <u><b>id</b></u>,
+    #recetteId → RECETTE.id,
+    #ingredientId → INGREDIENT.id,
+    quantite
+)
 
-        <!-- ── MENU_SEMAINE ── -->
-        <rect x="360" y="290" width="200" height="90" rx="4" fill="white" stroke="#1E3A2F" stroke-width="2"/>
-        <rect x="360" y="290" width="200" height="28" rx="4" fill="#2D5C46"/>
-        <text x="460" y="309" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Inter">MENU_SEMAINE</text>
-        <text x="370" y="336" fill="#C0392B" font-size="11" font-family="JetBrains Mono">PK id</text>
-        <text x="370" y="352" fill="#333" font-size="11" font-family="JetBrains Mono">semaineDu</text>
-        <text x="370" y="368" fill="#333" font-size="11" font-family="JetBrains Mono">nbPersonnes</text>
+<span class="code-keyword">MENU_SEMAINE</span> (
+    <u><b>id</b></u>,
+    semaine,
+    dateDebut,
+    dateFin
+)
 
-        <!-- ── ASSOC PLANIFIE (losange) ── -->
-        <polygon points="460,220 510,200 560,220 510,240" fill="#EEF6F1" stroke="#4A8C6A" stroke-width="2"/>
-        <text x="510" y="218" text-anchor="middle" fill="#1E3A2F" font-size="11" font-family="Inter" font-weight="bold">planifie</text>
-        <text x="510" y="232" text-anchor="middle" fill="#666" font-size="9" font-family="Inter">jour, typeRepas</text>
-        <!-- lignes -->
-        <line x1="460" y1="190" x2="460" y2="220" stroke="#4A8C6A" stroke-width="1.5"/>
-        <line x1="460" y1="290" x2="460" y2="240" stroke="#4A8C6A" stroke-width="1.5"/>
-        <text x="430" y="212" fill="#666" font-size="10">1,N</text>
-        <text x="430" y="282" fill="#666" font-size="10">1,N</text>
-        <!-- ligne vers recette -->
-        <line x1="560" y1="220" x2="600" y2="220" stroke="#4A8C6A" stroke-width="1.5"/>
-        <line x1="600" y1="220" x2="600" y2="105" stroke="#4A8C6A" stroke-width="1.5"/>
-        <line x1="600" y1="105" x2="560" y2="105" stroke="#4A8C6A" stroke-width="1.5"/>
-        <text x="570" y="215" fill="#666" font-size="10">0,N</text>
+<span class="code-keyword">MENU_RECETTE</span> (
+    <u><b>id</b></u>,
+    #menuId → MENU_SEMAINE.id,
+    #recetteId → RECETTE.id,
+    jour,
+    momentRepas
+)
 
-        <!-- ── ARTICLE_COURSES ── -->
-        <rect x="700" y="290" width="200" height="122" rx="4" fill="white" stroke="#1E3A2F" stroke-width="2"/>
-        <rect x="700" y="290" width="200" height="28" rx="4" fill="#7c3aed"/>
-        <text x="800" y="309" text-anchor="middle" fill="white" font-weight="bold" font-size="12" font-family="Inter">ARTICLE_COURSES</text>
-        <text x="710" y="336" fill="#C0392B" font-size="11" font-family="JetBrains Mono">PK id</text>
-        <text x="710" y="352" fill="#333" font-size="11" font-family="JetBrains Mono">nom</text>
-        <text x="710" y="368" fill="#333" font-size="11" font-family="JetBrains Mono">quantite</text>
-        <text x="710" y="384" fill="#333" font-size="11" font-family="JetBrains Mono">codeBarres</text>
-        <text x="710" y="400" fill="#333" font-size="11" font-family="JetBrains Mono">coche</text>
+<span class="code-keyword">ARTICLE_COURSES</span> (
+    <u><b>id</b></u>,
+    nom,
+    quantite,
+    coche,
+    #menuId → MENU_SEMAINE.id
+)
 
-        <!-- OpenFoodFacts API -->
-        <rect x="700" y="440" width="200" height="60" rx="8" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="6,3"/>
-        <text x="800" y="466" text-anchor="middle" fill="#1d4ed8" font-weight="bold" font-size="12" font-family="Inter">OpenFoodFacts API</text>
-        <text x="800" y="484" text-anchor="middle" fill="#1d4ed8" font-size="10" font-family="Inter">Source externe (Retrofit)</text>
-        <line x1="800" y1="440" x2="800" y2="412" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="4,2"/>
-        <text x="810" y="428" fill="#1d4ed8" font-size="9">alimente</text>
-
-        <!-- Légende -->
-        <rect x="30" y="440" width="300" height="70" rx="8" fill="#f8f9fa" stroke="#ddd" stroke-width="1"/>
-        <text x="40" y="458" fill="#333" font-size="11" font-family="Inter" font-weight="bold">Légende</text>
-        <rect x="40" y="465" width="12" height="12" fill="#1E3A2F"/>
-        <text x="58" y="475" fill="#555" font-size="10" font-family="Inter">Entité principale</text>
-        <polygon points="80,485 90,478 100,485 90,492" fill="#EEF6F1" stroke="#4A8C6A" stroke-width="1.5"/>
-        <text x="108" y="489" fill="#555" font-size="10" font-family="Inter">Association / Relation</text>
-        <text x="40" y="502" fill="#C0392B" font-size="10" font-family="JetBrains Mono">PK</text>
-        <text x="56" y="502" fill="#555" font-size="10" font-family="Inter">Clé primaire</text>
-        <text x="130" y="502" fill="#E67E22" font-size="10" font-family="JetBrains Mono">FK</text>
-        <text x="146" y="502" fill="#555" font-size="10" font-family="Inter">Clé étrangère</text>
-      </svg></div>
+<span class="code-comment">-- Conventions :
+-- Souligné = clé primaire
+-- # = clé étrangère</span>
   </div>
 
-  <!-- ═══════════════════════ 5. MLD ═══════════════════════ -->
-  <div class="section" id="mld">
-    <div class="section-title">5. Modèle Logique de Données (MLD)</div>
-    <p class="section-sub">Traduction du MCD en tables relationnelles</p>
+  <h3>Contraintes d'intégrité</h3>
 
-    <div class="code-block">
-<span class="code-comment">-- Tables issues du MCD CuisineWeek</span>
+  <table>
+    <tr>
+      <th>Table</th>
+      <th>Contrainte</th>
+      <th>Comportement</th>
+    </tr>
 
-<span class="code-keyword">CATEGORIE</span> (<u><b>id</b></u>, nom, icone)
+    <tr>
+      <td>RECETTE</td>
+      <td>categorieId → CATEGORIE.id</td>
+      <td>SET NULL si catégorie supprimée</td>
+    </tr>
 
-<span class="code-keyword">RECETTE</span> (<u><b>id</b></u>, nom, description, tempsPrep, tempsCuisson,
-         nbPersonnes, difficulte, imageUri, estPersonnalisee,
-         #categorieId → CATEGORIE.id)
+    <tr>
+      <td>RECETTE_INGREDIENT</td>
+      <td>recetteId → RECETTE.id</td>
+      <td>CASCADE DELETE</td>
+    </tr>
 
-<span class="code-keyword">INGREDIENT</span> (<u><b>id</b></u>, nom, uniteDefaut, categorieCourses)
+    <tr>
+      <td>RECETTE_INGREDIENT</td>
+      <td>ingredientId → INGREDIENT.id</td>
+      <td>RESTRICT</td>
+    </tr>
 
-<span class="code-keyword">RECETTE_INGREDIENT</span> (<u><b>#recetteId → RECETTE.id</b></u>, <u><b>#ingredientId → INGREDIENT.id</b></u>,
-                   quantite, unite)
+    <tr>
+      <td>MENU_RECETTE</td>
+      <td>menuId → MENU_SEMAINE.id</td>
+      <td>CASCADE DELETE</td>
+    </tr>
 
-<span class="code-keyword">MENU_SEMAINE</span> (<u><b>id</b></u>, semaineDu, nbPersonnes)
+    <tr>
+      <td>MENU_RECETTE</td>
+      <td>recetteId → RECETTE.id</td>
+      <td>RESTRICT</td>
+    </tr>
 
-<span class="code-keyword">MENU_RECETTE</span> (<u><b>#menuId → MENU_SEMAINE.id</b></u>, <u><b>#recetteId → RECETTE.id</b></u>,
-             <u><b>jour</b></u>, <u><b>typeRepas</b></u>)
+    <tr>
+      <td>ARTICLE_COURSES</td>
+      <td>menuId → MENU_SEMAINE.id</td>
+      <td>CASCADE DELETE</td>
+    </tr>
+  </table>
 
-<span class="code-keyword">ARTICLE_COURSES</span> (<u><b>id</b></u>, nom, quantite, codeBarres, coche)
+  <h3>Relations principales</h3>
 
-<span class="code-comment">-- Conventions : souligné = clé primaire, # = clé étrangère</span>
-    </div>
+  <div class="code-block">
+CATEGORIE
+    1 -------- N
+            RECETTE
 
-    <h3>Contraintes d'intégrité</h3>
-    <table>
-      <tr><th>Table</th><th>Contrainte</th><th>Comportement</th></tr>
-      <tr><td>RECETTE</td><td>categorieId → CATEGORIE.id</td><td>SET NULL si catégorie supprimée</td></tr>
-      <tr><td>RECETTE_INGREDIENT</td><td>recetteId → RECETTE.id</td><td>CASCADE DELETE</td></tr>
-      <tr><td>RECETTE_INGREDIENT</td><td>ingredientId → INGREDIENT.id</td><td>RESTRICT</td></tr>
-      <tr><td>MENU_RECETTE</td><td>menuId → MENU_SEMAINE.id</td><td>CASCADE DELETE</td></tr>
-      <tr><td>MENU_RECETTE</td><td>recetteId → RECETTE.id</td><td>RESTRICT</td></tr>
-    </table>
+RECETTE
+    N -------- N
+     via RECETTE_INGREDIENT
+            INGREDIENT
+
+MENU_SEMAINE
+    1 -------- N
+          MENU_RECETTE
+                N
+                |
+                1
+             RECETTE
+
+MENU_SEMAINE
+    1 -------- N
+       ARTICLE_COURSES
   </div>
+</div>
 
-  <!-- ═══════════════════════ 6. SCHÉMA BDD ═══════════════════════ -->
-  <div class="section" id="bdd">
-    <div class="section-title">6. Schéma de base de données (Room SQLite)</div>
-    <p class="section-sub">Définition SQL des tables telle qu'implémentée avec Room</p>
-
-    <div class="code-block">
-<span class="code-annotation">-- Générée automatiquement par Room à partir des @Entity</span>
-
-<span class="code-keyword">CREATE TABLE</span> categories (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom       TEXT NOT NULL,
-    icone     TEXT NOT NULL
-);
-
-<span class="code-keyword">CREATE TABLE</span> recettes (
-    id               INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom              TEXT NOT NULL,
-    description      TEXT NOT NULL,
-    tempsPrep        INTEGER NOT NULL,
-    tempsCuisson     INTEGER NOT NULL,
-    nbPersonnes      INTEGER NOT NULL,
-    difficulte       TEXT NOT NULL,
-    categorieId      INTEGER,
-    imageUri         TEXT,
-    estPersonnalisee INTEGER NOT NULL DEFAULT 0,
-    FOREIGN KEY (categorieId) REFERENCES categories(id) ON DELETE SET NULL
-);
-
-<span class="code-keyword">CREATE TABLE</span> ingredients (
-    id               INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom              TEXT NOT NULL,
-    uniteDefaut      TEXT NOT NULL,
-    categorieCourses TEXT NOT NULL
-);
-
-<span class="code-keyword">CREATE TABLE</span> recette_ingredients (
-    recetteId    INTEGER NOT NULL,
-    ingredientId INTEGER NOT NULL,
-    quantite     REAL NOT NULL,
-    unite        TEXT NOT NULL,
-    PRIMARY KEY (recetteId, ingredientId),
-    FOREIGN KEY (recetteId)    REFERENCES recettes(id)    ON DELETE CASCADE,
-    FOREIGN KEY (ingredientId) REFERENCES ingredients(id)
-);
-
-<span class="code-keyword">CREATE TABLE</span> menus_semaine (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    semaineDu   TEXT NOT NULL,
-    nbPersonnes INTEGER NOT NULL DEFAULT 4
-);
-
-<span class="code-keyword">CREATE TABLE</span> menu_recettes (
-    menuId    INTEGER NOT NULL,
-    recetteId INTEGER NOT NULL,
-    jour      TEXT NOT NULL,
-    typeRepas TEXT NOT NULL,
-    PRIMARY KEY (menuId, recetteId, jour, typeRepas),
-    FOREIGN KEY (menuId)    REFERENCES menus_semaine(id) ON DELETE CASCADE,
-    FOREIGN KEY (recetteId) REFERENCES recettes(id)
-);
-
-<span class="code-keyword">CREATE TABLE</span> articles_courses (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom         TEXT NOT NULL,
-    quantite    TEXT NOT NULL DEFAULT <span class="code-string">''</span>,
-    codeBarres  TEXT NOT NULL,
-    coche       INTEGER NOT NULL DEFAULT 0
-);
-    </div>
-
-    <h3>Requête clé — Génération liste de courses depuis le menu</h3>
-    <div class="code-block">
-<span class="code-comment">-- Récupère et additionne tous les ingrédients du menu de la semaine</span>
-<span class="code-keyword">SELECT</span>
-    i.nom                                          AS ingredient,
-    <span class="code-keyword">SUM</span>(ri.quantite * (m.nbPersonnes / r.nbPersonnes)) AS quantite_totale,
-    ri.unite                                       AS unite,
-    i.categorieCourses                             AS categorie
-<span class="code-keyword">FROM</span> menu_recettes mr
-<span class="code-keyword">JOIN</span> recettes r           ON mr.recetteId    = r.id
-<span class="code-keyword">JOIN</span> recette_ingredients ri ON r.id           = ri.recetteId
-<span class="code-keyword">JOIN</span> ingredients i         ON ri.ingredientId = i.id
-<span class="code-keyword">JOIN</span> menus_semaine m       ON mr.menuId       = m.id
-<span class="code-keyword">WHERE</span> m.id = :menuId
-<span class="code-keyword">GROUP BY</span> i.nom, ri.unite
-<span class="code-keyword">ORDER BY</span> i.categorieCourses, i.nom;
-    </div>
-  </div>
-
-  <!-- ═══════════════════════ 7. CAS D'UTILISATION ═══════════════════════ -->
+  <!-- ═══════════════════════ 5. CAS D'UTILISATION ═══════════════════════ -->
   <div class="section" id="usecases">
-    <div class="section-title">7. Diagramme de cas d'utilisation</div>
+    <div class="section-title">5. Diagramme de cas d'utilisation</div>
     <p class="section-sub">Actions disponibles pour l'utilisateur (acteur unique — pas de gestion de comptes)</p>
 
     <div class="use-case-grid">
@@ -723,9 +608,6 @@
           <li>Scanner un code-barre produit</li>
           <li>Ajouter un produit à la liste</li>
           <li>Cocher un article acheté</li>
-          <li>Supprimer un article</li>
-          <li>Vider toute la liste</li>
-          <li>Partager la liste (Android Intent)</li>
         </ul>
       </div>
     </div>
