@@ -1,8 +1,8 @@
-# Guide d’installation d’une application mobile Kotlin depuis GitHub
+# Guide d’installation CuisineWeek depuis GitHub
 
 ## Objectif
 
-Ce guide explique comment récupérer, configurer et lancer une application Android développée en Kotlin à partir d’un dépôt GitHub.
+Ce guide explique comment récupérer, configurer et lancer CuisineWeek développée en Kotlin à partir d’un dépôt GitHub.
 
 ---
 
