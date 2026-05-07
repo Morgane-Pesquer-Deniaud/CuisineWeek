@@ -1,4 +1,3 @@
-````md
 # Guide d’installation d’une application mobile Kotlin depuis GitHub
 
 ## Objectif
@@ -383,21 +382,3 @@ git clone https://github.com/user/repo.git
 ## Lancement
 
 Ouvrir le projet avec Android Studio puis lancer l’émulateur.
-````
-
----
-
-# Conclusion
-
-L’installation d’une application Kotlin Android suit toujours la même logique :
-
-1. Installer les outils
-2. Cloner le dépôt GitHub
-3. Ouvrir dans Android Studio
-4. Synchroniser Gradle
-5. Lancer sur émulateur ou téléphone
-
-Une fois cette base maîtrisée, tu peux automatiser le build, le déploiement et les tests avec GitHub Actions, Firebase ou Docker Android.
-
-```
-```
