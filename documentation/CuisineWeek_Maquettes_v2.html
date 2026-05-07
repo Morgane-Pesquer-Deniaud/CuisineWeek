@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CuisineWeek – Maquettes v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep:    #1E3A2F;
+    --green-mid:     #2D5C46;
+    --green-soft:    #4A8C6A;
+    --green-pale:    #D6E8DC;
+    --green-ghost:   #EEF6F1;
+    --cream:         #F9F6F0;
+    --cream-dark:    #EDE8DF;
+    --white:         #FFFFFF;
+    --ink:           #1A1A1A;
+    --ink-mid:       #4A4A4A;
+    --ink-light:     #8A8A8A;
+    --ink-ghost:     #D0D0D0;
+    --error:         #C0392B;
+    --error-pale:    #FDECEA;
+    --warning:       #D4891A;
+    --warning-pale:  #FDF3E3;
+
+    --radius:     14px;
+    --radius-sm:  9px;
+    --shadow:     0 2px 10px rgba(30,58,47,0.10);
+    --shadow-md:  0 4px 20px rgba(30,58,47,0.14);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #111;
+    min-height: 100vh;
+    padding: 48px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+
+  /* ── HEADER PAGE ── */
+  .page-header { text-align:center; }
+  .page-header h1 {
+    font-family: 'Lora', serif;
+    color: #F9F6F0;
+    font-size: 2rem;
+    letter-spacing: .02em;
+    margin-bottom: 6px;
+  }
+  .page-header p { color: #666; font-size: .85rem; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    color: #555;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .screens-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    max-width: 1440px;
+    width: 100%;
+  }
+
+  /* ── PHONE SHELL ── */
+  .phone-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .phone-tag  { color:#555; font-size:.7rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; }
+
+  .phone {
+    width: 300px;
+    height: 630px;
+    background: #0d0d0d;
+    border-radius: 42px;
+    padding: 11px;
+    box-shadow: 0 0 0 1px #2a2a2a, 0 28px 80px rgba(0,0,0,.7);
+    flex-shrink: 0;
+  }
+
+  .screen {
+    width: 100%;
+    height: 100%;
+    background: var(--cream);
+    border-radius: 33px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── STATUS BAR ── */
+  .status {
+    height: 26px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--white);
+    padding: 6px 16px 12px;
+    border-bottom: 1px solid var(--cream-dark);
+    flex-shrink: 0;
+  }
+  .topbar-row { display:flex; align-items:center; justify-content:space-between; }
+  .topbar-title {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .topbar-sub { font-size: 10px; color: var(--ink-light); margin-top: 2px; }
+  .back { color: var(--green-soft); font-size: 11px; font-weight: 500; }
+
+  /* ── SCROLL ── */
+  .scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+  .scroll::-webkit-scrollbar { display:none; }
+
+  /* ── BOTTOM NAV ── */
+  .nav {
+    height: 60px;
+    background: var(--white);
+    border-top: 1px solid var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 4px 6px;
+    flex-shrink: 0;
+  }
+  .nav-item { display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 10px;border-radius:10px; }
+  .nav-item.on { background: var(--green-ghost); }
+  .nav-icon { font-size:16px; }
+  .nav-txt  { font-size:9px; font-weight:500; color:var(--ink-light); }
+  .nav-item.on .nav-txt { color:var(--green-deep); font-weight:600; }
+
+  /* ── BADGE ── */
+  .badge {
+    position:absolute; top:-4px; right:-4px;
+    background: var(--green-soft);
+    color: white; width:14px; height:14px;
+    border-radius:50%; font-size:8px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ── SEARCH BAR ── */
+  .search {
+    background: var(--cream);
+    border: 1px solid var(--cream-dark);
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: var(--ink-light);
+    flex-shrink: 0;
+  }
+
+  /* ── CHIPS ── */
+  .chips { display:flex; gap:5px; overflow-x:auto; scrollbar-width:none; flex-shrink:0; }
+  .chips::-webkit-scrollbar { display:none; }
+  .chip {
+    padding: 4px 11px; border-radius:20px;
+    font-size: 10px; font-weight:500; white-space:nowrap; flex-shrink:0;
+    border: 1px solid transparent; cursor:pointer;
+  }
+  .chip.on  { background:var(--green-deep); color:white; }
+  .chip.off { background:var(--white); color:var(--ink-mid); border-color:var(--cream-dark); }
+
+  /* ── RECIPE GRID ── */
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+  .rcard {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .rcard-img {
+    width:100%; height:72px;
+    display:flex; align-items:center; justify-content:center; font-size:30px;
+  }
+  .rcard-body { padding:7px 9px 9px; }
+  .rcard-title {
+    font-family: 'Lora', serif;
+    font-size: 11px; font-weight:600; color:var(--ink);
+    line-height:1.3; margin-bottom:5px;
+  }
+
+  /* Meta pills */
+  .pill {
+    display:inline-flex; align-items:center;
+    padding:2px 6px; border-radius:20px; font-size:9px; font-weight:500;
+  }
+  .pill-time  { background:var(--green-ghost); color:var(--green-mid); }
+  .pill-easy  { background:#E8F5E9; color:#2E7D32; }
+  .pill-med   { background:#FFF8E1; color:#E65100; }
+  .pill-cat   { background:var(--cream-dark); color:var(--ink-mid); }
+  .pill-perso { background:var(--green-deep); color:white; font-size:8px; }
+  .pills { display:flex; gap:3px; flex-wrap:wrap; }
+
+  /* ── DAY ROWS ── */
+  .day-card { background:var(--white); border-radius:var(--radius-sm); overflow:hidden; box-shadow:var(--shadow); }
+  .day-head {
+    padding:6px 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  }
+  .day-head.today { background:var(--green-deep); color:white; }
+  .day-head.other { background:var(--ink); color:white; }
+  .today-badge { background:rgba(255,255,255,.2); font-size:8px; padding:1px 6px; border-radius:8px; font-weight:500; }
+  .day-meals { padding:6px 10px 8px; display:flex; flex-direction:column; gap:4px; }
+
+  .meal-row { display:flex; align-items:center; gap:7px; padding:5px 6px; border-radius:7px; font-size:10px; }
+  .meal-row.filled { background:var(--green-ghost); }
+  .meal-row.empty  { background:var(--cream); border:1px dashed var(--ink-ghost); }
+  .meal-time { color:var(--ink-light); font-size:8px; font-weight:600; width:26px; flex-shrink:0; }
+  .meal-ico  { font-size:13px; flex-shrink:0; }
+  .meal-name { color:var(--ink); font-weight:500; flex:1; }
+  .meal-add  { width:15px; height:15px; border-radius:50%; background:var(--green-ghost); color:var(--green-soft); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .meal-empty-txt { color:var(--ink-ghost); font-style:italic; font-size:9px; flex:1; }
+
+  /* ── DETAIL ── */
+  .hero {
+    width:100%; height:130px;
+    display:flex; align-items:center; justify-content:center; font-size:58px;
+    flex-shrink:0; position:relative;
+  }
+  .hero-fade {
+    position:absolute; bottom:0; left:0; right:0; height:50px;
+    background:linear-gradient(transparent, var(--cream));
+  }
+
+  .sec-title {
+    font-family:'Lora',serif; font-size:12px; font-weight:700; color:var(--ink);
+    margin-bottom:2px;
+  }
+
+  .ingr-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 0; border-bottom:1px solid var(--cream-dark); font-size:11px;
+  }
+  .ingr-row:last-child { border:none; }
+  .ingr-name { color:var(--ink); font-weight:500; }
+  .ingr-qty  { color:var(--green-mid); font-weight:600; font-size:10px; }
+
+  .step-row { display:flex; gap:9px; padding:5px 0; }
+  .step-n {
+    width:20px; height:20px; border-radius:50%;
+    background:var(--green-deep); color:white;
+    font-size:9px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+  }
+  .step-txt { font-size:10px; color:var(--ink-mid); line-height:1.5; flex:1; }
+
+  /* ── COURSES ── */
+  .courses-sec { font-size:9px; font-weight:700; color:var(--ink-light); letter-spacing:.1em; text-transform:uppercase; padding:4px 0 2px; }
+  .course-item {
+    background:var(--white); border-radius:var(--radius-sm);
+    padding:8px 12px; display:flex; align-items:center; gap:9px;
+    box-shadow:var(--shadow); font-size:11px;
+  }
+  .chk { width:17px; height:17px; border-radius:4px; border:1.5px solid var(--ink-ghost); flex-shrink:0; }
+  .chk.done { background:var(--green-soft); border-color:var(--green-soft); display:flex; align-items:center; justify-content:center; color:white; font-size:9px; }
+  .c-name { flex:1; color:var(--ink); font-weight:500; }
+  .c-name.done { text-decoration:line-through; color:var(--ink-ghost); }
+  .c-qty { color:var(--ink-light); font-size:10px; font-weight:500; }
+
+  /* ── BUDGET BAR ── */
+  .budget-bar {
+    background:var(--green-deep); border-radius:var(--radius-sm);
+    padding:10px 14px; display:flex; justify-content:space-between; align-items:center;
+    flex-shrink:0; margin:0 12px 8px;
+  }
+  .budget-lbl { font-size:9px; color:var(--green-pale); font-weight:500; }
+  .budget-val { font-family:'Lora',serif; font-size:15px; color:white; font-weight:700; }
+  .budget-prog-wrap { width:70px; height:5px; background:rgba(255,255,255,.2); border-radius:3px; overflow:hidden; margin-top:3px; }
+  .budget-prog { height:100%; background:var(--green-pale); border-radius:3px; }
+
+  /* ── FORM ── */
+  .f-group { display:flex; flex-direction:column; gap:3px; }
+  .f-label { font-size:9px; font-weight:700; color:var(--ink-light); letter-spacing:.08em; text-transform:uppercase; }
+  .f-input {
+    background:var(--white); border:1.5px solid var(--cream-dark);
+    border-radius:9px; padding:8px 11px; font-size:11px; color:var(--ink);
+    font-family:'Inter',sans-serif;
+  }
+  .f-input.focus { border-color:var(--green-soft); }
+  .f-input.area  { height:50px; }
+  .f-ph { color:var(--ink-ghost); }
+  .grid2f { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+
+  /* ── PERSONS ── */
+  .persons-row {
+    background:var(--white); border-radius:var(--radius-sm);
+    padding:8px 12px; display:flex; align-items:center; justify-content:space-between;
+    box-shadow:var(--shadow); flex-shrink:0;
+  }
+  .p-lbl { font-size:11px; font-weight:600; color:var(--ink); }
+  .p-ctrl { display:flex; align-items:center; gap:9px; }
+  .p-btn {
+    width:24px; height:24px; border-radius:50%;
+    border:1.5px solid var(--green-soft); color:var(--green-soft);
+    font-size:14px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .p-val { font-size:13px; font-weight:700; color:var(--ink); min-width:18px; text-align:center; }
+
+  /* ── CTA ── */
+  .cta {
+    background:var(--green-deep); color:white;
+    border-radius:12px; padding:11px; text-align:center;
+    font-size:12px; font-weight:600; cursor:pointer;
+    flex-shrink:0; margin:0 12px 10px;
+    box-shadow:0 4px 14px rgba(30,58,47,.35);
+  }
+  .cta-outline {
+    border:1.5px solid var(--green-deep); color:var(--green-deep);
+    border-radius:12px; padding:10px; text-align:center;
+    font-size:12px; font-weight:600; cursor:pointer;
+    flex-shrink:0; margin:0 12px 10px;
+  }
+  .cta-share {
+    background:var(--green-mid); color:white;
+    border-radius:12px; padding:10px 14px;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    font-size:12px; font-weight:600; cursor:pointer;
+    flex-shrink:0; margin:0 12px 10px;
+    box-shadow:0 4px 12px rgba(45,92,70,.3);
+  }
+
+  /* ── ERROR / EMPTY STATES ── */
+  .empty-state {
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:28px 20px; gap:10px; text-align:center;
+  }
+  .empty-ico { font-size:44px; opacity:.5; }
+  .empty-title { font-family:'Lora',serif; font-size:14px; font-weight:600; color:var(--ink); }
+  .empty-sub   { font-size:11px; color:var(--ink-light); line-height:1.5; }
+  .empty-btn   {
+    margin-top:4px; background:var(--green-deep); color:white;
+    border-radius:10px; padding:9px 20px;
+    font-size:11px; font-weight:600; cursor:pointer;
+  }
+
+  .error-banner {
+    background:var(--error-pale);
+    border-left:3px solid var(--error);
+    border-radius:8px; padding:9px 12px;
+    display:flex; gap:8px; align-items:flex-start;
+    font-size:10px; flex-shrink:0;
+  }
+  .error-ico  { color:var(--error); font-size:14px; flex-shrink:0; }
+  .error-msg  { color:var(--error); font-weight:600; }
+  .error-sub  { color:#843027; font-size:9px; margin-top:2px; line-height:1.4; }
+
+  .warn-banner {
+    background:var(--warning-pale);
+    border-left:3px solid var(--warning);
+    border-radius:8px; padding:9px 12px;
+    display:flex; gap:8px; align-items:flex-start;
+    font-size:10px; flex-shrink:0;
+  }
+  .warn-ico { color:var(--warning); font-size:14px; flex-shrink:0; }
+  .warn-msg { color:var(--warning); font-weight:600; }
+  .warn-sub { color:#7A4F10; font-size:9px; margin-top:2px; line-height:1.4; }
+
+  /* ── BG flavors ── */
+  .bg1 { background:linear-gradient(135deg,#D6E8DC,#B8D4C4); }
+  .bg2 { background:linear-gradient(135deg,#EDE8DF,#DDD5C5); }
+  .bg3 { background:linear-gradient(135deg,#D8EDF5,#BDD4E0); }
+  .bg4 { background:linear-gradient(135deg,#EDE0F0,#D9C8E4); }
+  .bg5 { background:linear-gradient(135deg,#F5EDD0,#EDD8A8); }
+  .bg6 { background:linear-gradient(135deg,#F0D8D8,#E4C0C0); }
+
+  /* ── BOTTOM SHEET ── */
+  .sheet-bg { flex:1; background:rgba(30,58,47,.12); }
+  .sheet {
+    background:var(--white); border-radius:22px 22px 0 0;
+    padding:0 0 10px; flex-shrink:0;
+    box-shadow:0 -6px 28px rgba(0,0,0,.15);
+  }
+  .sheet-handle { width:36px; height:4px; background:var(--cream-dark); border-radius:2px; margin:10px auto 12px; }
+
+  /* ── APP ICON ── */
+  .icon-showcase {
+    display:flex; flex-direction:column; align-items:center; gap:20px;
+  }
+  .icon-grid {
+    display:flex; gap:24px; align-items:flex-end; justify-content:center; flex-wrap:wrap;
+  }
+  .icon-item { display:flex; flex-direction:column; align-items:center; gap:7px; }
+  .icon-lbl  { color:#555; font-size:.65rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; }
+
+  /* ── LEGEND ── */
+  .legend {
+    background:#1a1a1a; border:1px solid #2a2a2a;
+    border-radius:16px; padding:24px 28px;
+    max-width:1000px; width:100%;
+  }
+  .legend h2 { font-family:'Lora',serif; color:#F9F6F0; font-size:1rem; margin-bottom:16px; }
+  .legend-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+  .legend-item { background:#242424; border-radius:9px; padding:11px 14px; }
+  .legend-id   { color:var(--green-soft); font-size:10px; font-weight:700; margin-bottom:3px; }
+  .legend-desc { color:#777; font-size:10px; line-height:1.5; }
+
+  /* ── DIVIDER ── */
+  .divider { width:100%; max-width:1000px; height:1px; background:#222; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>CuisineWeek</h1>
+  <p>Maquettes UI · Application Android Kotlin · BTS SIO SLAM 2025–2026</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     ICÔNE APPLICATION
+════════════════════════════════════════════════════ -->
+<div class="section-label">Icône de l'application</div>
+<div class="icon-showcase">
+  <div class="icon-grid">
+
+    <!-- 108dp – Launcher -->
+    <div class="icon-item">
+      <svg width="108" height="108" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2D5C46"/>
+            <stop offset="100%" stop-color="#1E3A2F"/>
+          </linearGradient>
+          <linearGradient id="leaf1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#A8D5B5"/>
+            <stop offset="100%" stop-color="#6DB88A"/>
+          </linearGradient>
+        </defs>
+        <!-- fond arrondi -->
+        <rect width="108" height="108" rx="24" fill="url(#bg1)"/>
+        <!-- assiette -->
+        <ellipse cx="54" cy="62" rx="28" ry="7" fill="none" stroke="#F9F6F0" stroke-width="2.5" opacity=".25"/>
+        <ellipse cx="54" cy="60" rx="22" ry="18" fill="none" stroke="#F9F6F0" stroke-width="2.5" opacity=".55"/>
+        <!-- tige centrale -->
+        <line x1="54" y1="60" x2="54" y2="30" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round"/>
+        <!-- grande feuille gauche -->
+        <path d="M54 45 Q36 35 34 22 Q46 24 54 38Z" fill="url(#leaf1)" opacity=".9"/>
+        <!-- grande feuille droite -->
+        <path d="M54 38 Q66 24 78 22 Q76 35 54 45Z" fill="url(#leaf1)" opacity=".75"/>
+        <!-- petite feuille haut -->
+        <path d="M54 30 Q50 22 52 16 Q58 18 54 30Z" fill="#D6E8DC" opacity=".85"/>
+        <!-- fourchette -->
+        <line x1="38" y1="52" x2="38" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <line x1="36" y1="52" x2="36" y2="60" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+        <line x1="40" y1="52" x2="40" y2="60" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+        <!-- couteau -->
+        <line x1="70" y1="52" x2="70" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <path d="M68 52 Q74 56 70 62" fill="none" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="icon-lbl">108 dp · Launcher</span>
+    </div>
+
+    <!-- 72dp -->
+    <div class="icon-item">
+      <svg width="72" height="72" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2D5C46"/>
+            <stop offset="100%" stop-color="#1E3A2F"/>
+          </linearGradient>
+          <linearGradient id="leaf2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#A8D5B5"/>
+            <stop offset="100%" stop-color="#6DB88A"/>
+          </linearGradient>
+        </defs>
+        <rect width="108" height="108" rx="24" fill="url(#bg2)"/>
+        <ellipse cx="54" cy="60" rx="22" ry="18" fill="none" stroke="#F9F6F0" stroke-width="2.5" opacity=".55"/>
+        <line x1="54" y1="60" x2="54" y2="30" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round"/>
+        <path d="M54 45 Q36 35 34 22 Q46 24 54 38Z" fill="url(#leaf2)" opacity=".9"/>
+        <path d="M54 38 Q66 24 78 22 Q76 35 54 45Z" fill="url(#leaf2)" opacity=".75"/>
+        <path d="M54 30 Q50 22 52 16 Q58 18 54 30Z" fill="#D6E8DC" opacity=".85"/>
+        <line x1="38" y1="52" x2="38" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <line x1="36" y1="52" x2="36" y2="60" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+        <line x1="40" y1="52" x2="40" y2="60" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+        <line x1="70" y1="52" x2="70" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <path d="M68 52 Q74 56 70 62" fill="none" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="icon-lbl">72 dp</span>
+    </div>
+
+    <!-- 48dp -->
+    <div class="icon-item">
+      <svg width="48" height="48" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2D5C46"/>
+            <stop offset="100%" stop-color="#1E3A2F"/>
+          </linearGradient>
+          <linearGradient id="leaf3" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#A8D5B5"/>
+            <stop offset="100%" stop-color="#6DB88A"/>
+          </linearGradient>
+        </defs>
+        <rect width="108" height="108" rx="24" fill="url(#bg3)"/>
+        <ellipse cx="54" cy="60" rx="22" ry="18" fill="none" stroke="#F9F6F0" stroke-width="2.5" opacity=".55"/>
+        <line x1="54" y1="60" x2="54" y2="30" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round"/>
+        <path d="M54 45 Q36 35 34 22 Q46 24 54 38Z" fill="url(#leaf3)" opacity=".9"/>
+        <path d="M54 38 Q66 24 78 22 Q76 35 54 45Z" fill="url(#leaf3)" opacity=".75"/>
+        <path d="M54 30 Q50 22 52 16 Q58 18 54 30Z" fill="#D6E8DC" opacity=".85"/>
+        <line x1="38" y1="52" x2="38" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <line x1="70" y1="52" x2="70" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="icon-lbl">48 dp</span>
+    </div>
+
+    <!-- 24dp notification -->
+    <div class="icon-item">
+      <svg width="24" height="24" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+        <rect width="108" height="108" rx="24" fill="#1E3A2F"/>
+        <ellipse cx="54" cy="60" rx="22" ry="18" fill="none" stroke="#D6E8DC" stroke-width="3" opacity=".8"/>
+        <line x1="54" y1="60" x2="54" y2="28" stroke="#D6E8DC" stroke-width="3" stroke-linecap="round"/>
+        <path d="M54 45 Q36 35 34 22 Q48 26 54 40Z" fill="#D6E8DC"/>
+        <path d="M54 40 Q60 26 74 22 Q72 35 54 45Z" fill="#A8D5B5"/>
+      </svg>
+      <span class="icon-lbl">24 dp · Notif</span>
+    </div>
+
+    <!-- Sur fond clair -->
+    <div class="icon-item">
+      <div style="background:#F9F6F0;border-radius:18px;padding:16px;display:flex;align-items:center;justify-content:center;">
+        <svg width="72" height="72" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2D5C46"/>
+              <stop offset="100%" stop-color="#1E3A2F"/>
+            </linearGradient>
+            <linearGradient id="leaf4" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A8D5B5"/>
+              <stop offset="100%" stop-color="#6DB88A"/>
+            </linearGradient>
+          </defs>
+          <rect width="108" height="108" rx="24" fill="url(#bg4)"/>
+          <ellipse cx="54" cy="60" rx="22" ry="18" fill="none" stroke="#F9F6F0" stroke-width="2.5" opacity=".55"/>
+          <line x1="54" y1="60" x2="54" y2="30" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round"/>
+          <path d="M54 45 Q36 35 34 22 Q46 24 54 38Z" fill="url(#leaf4)" opacity=".9"/>
+          <path d="M54 38 Q66 24 78 22 Q76 35 54 45Z" fill="url(#leaf4)" opacity=".75"/>
+          <path d="M54 30 Q50 22 52 16 Q58 18 54 30Z" fill="#D6E8DC" opacity=".85"/>
+          <line x1="38" y1="52" x2="38" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+          <line x1="36" y1="52" x2="36" y2="60" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+          <line x1="40" y1="52" x2="40" y2="60" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+          <line x1="70" y1="52" x2="70" y2="74" stroke="#F9F6F0" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+          <path d="M68 52 Q74 56 70 62" fill="none" stroke="#F9F6F0" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+        </svg>
+      </div>
+      <span class="icon-lbl">Fond clair</span>
+    </div>
+
+  </div>
+  <div style="color:#555;font-size:.75rem;text-align:center;max-width:500px;line-height:1.6;">
+    Symbolique : l'<strong style="color:#888">assiette</strong> = repas, les <strong style="color:#888">feuilles</strong> = fraîcheur &amp; naturel, la <strong style="color:#888">fourchette/couteau</strong> = cuisine.<br>
+    Palette vert foncé → élégant, organique, sobre.
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     ÉCRANS PRINCIPAUX
+════════════════════════════════════════════════════ -->
+<div class="section-label">Écrans principaux</div>
+<div class="screens-row">
+
+  <!-- E01 MENU SEMAINE -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E01 · Menu Semaine</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="topbar-title">Ma semaine</div>
+          <div style="position:relative">
+            <span style="font-size:17px;">🛒</span>
+            <div class="badge">4</div>
+          </div>
+        </div>
+        <div class="topbar-sub">Semaine du 3 mars · 4 repas planifiés</div>
+      </div>
+      <div class="scroll">
+        <div class="day-card">
+          <div class="day-head today">
+            <span>Lundi</span><span class="today-badge">Aujourd'hui</span>
+          </div>
+          <div class="day-meals">
+            <div class="meal-row empty"><span class="meal-time">🌅</span><span class="meal-empty-txt">Ajouter un repas</span><span class="meal-add">+</span></div>
+            <div class="meal-row filled"><span class="meal-time">☀️</span><span class="meal-ico">🥗</span><span class="meal-name">Salade Niçoise</span></div>
+            <div class="meal-row filled"><span class="meal-time">🌙</span><span class="meal-ico">🍝</span><span class="meal-name">Pâtes Carbonara</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-head other"><span>Mardi</span></div>
+          <div class="day-meals">
+            <div class="meal-row empty"><span class="meal-time">🌅</span><span class="meal-empty-txt">Ajouter un repas</span><span class="meal-add">+</span></div>
+            <div class="meal-row filled"><span class="meal-time">☀️</span><span class="meal-ico">🥘</span><span class="meal-name">Poulet Rôti</span></div>
+            <div class="meal-row empty"><span class="meal-time">🌙</span><span class="meal-empty-txt">Ajouter un repas</span><span class="meal-add">+</span></div>
+          </div>
+        </div>
+        <div class="day-card">
+          <div class="day-head other"><span>Mercredi</span></div>
+          <div class="day-meals">
+            <div class="meal-row empty"><span class="meal-time">🌅</span><span class="meal-empty-txt">Ajouter</span><span class="meal-add">+</span></div>
+            <div class="meal-row empty"><span class="meal-time">☀️</span><span class="meal-empty-txt">Ajouter</span><span class="meal-add">+</span></div>
+            <div class="meal-row filled"><span class="meal-time">🌙</span><span class="meal-ico">🐟</span><span class="meal-name">Saumon papillote</span></div>
+          </div>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);padding:9px 12px;box-shadow:var(--shadow);">
+          <div style="font-size:9px;color:var(--ink-light);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;">Jeu · Ven · Sam · Dim</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span style="background:var(--cream);border-radius:6px;padding:4px 9px;font-size:9px;color:var(--ink-ghost);">Jeudi – vide</span>
+            <span style="background:var(--cream);border-radius:6px;padding:4px 9px;font-size:9px;color:var(--ink-ghost);">Vendredi – vide</span>
+            <span style="background:var(--cream);border-radius:6px;padding:4px 9px;font-size:9px;color:var(--ink-ghost);">Samedi – vide</span>
+            <span style="background:var(--cream);border-radius:6px;padding:4px 9px;font-size:9px;color:var(--ink-ghost);">Dimanche – vide</span>
+          </div>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-item on"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item" style="position:relative"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span><div class="badge">4</div></div>
+        <div class="nav-item"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- E02 CATALOGUE -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E02 · Catalogue</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row" style="margin-bottom:8px;">
+          <div class="topbar-title">Recettes</div>
+          <span style="font-size:10px;color:var(--ink-light);">24 recettes</span>
+        </div>
+        <div class="search">🔍 <span>Rechercher une recette…</span></div>
+      </div>
+      <div style="padding:8px 12px 4px;flex-shrink:0;">
+        <div class="chips">
+          <div class="chip on">Tout</div>
+          <div class="chip off">🥗 Entrées</div>
+          <div class="chip off">🍽️ Plats</div>
+          <div class="chip off">🍰 Desserts</div>
+          <div class="chip off">🥦 Végé</div>
+          <div class="chip off">⚡ Rapide</div>
+        </div>
+      </div>
+      <div class="scroll">
+        <div class="grid2">
+          <div class="rcard"><div class="rcard-img bg1">🥗</div><div class="rcard-body"><div class="rcard-title">Salade Niçoise</div><div class="pills"><span class="pill pill-time">⏱ 20 min</span><span class="pill pill-easy">Facile</span></div></div></div>
+          <div class="rcard"><div class="rcard-img bg2">🍝</div><div class="rcard-body"><div class="rcard-title">Pâtes Carbonara</div><div class="pills"><span class="pill pill-time">⏱ 25 min</span><span class="pill pill-easy">Facile</span></div></div></div>
+          <div class="rcard"><div class="rcard-img bg5">🥘</div><div class="rcard-body"><div class="rcard-title">Poulet Rôti Citron</div><div class="pills"><span class="pill pill-time">⏱ 1h10</span><span class="pill pill-med">Moyen</span></div></div></div>
+          <div class="rcard"><div class="rcard-img bg3">🐟</div><div class="rcard-body"><div class="rcard-title">Saumon papillote</div><div class="pills"><span class="pill pill-time">⏱ 30 min</span><span class="pill pill-easy">Facile</span></div></div></div>
+          <div class="rcard"><div class="rcard-img bg6">🫕</div><div class="rcard-body"><div class="rcard-title">Ratatouille</div><div class="pills"><span class="pill pill-time">⏱ 45 min</span><span class="pill pill-med">Moyen</span></div></div></div>
+          <div class="rcard"><div class="rcard-img bg4">🥧</div><div class="rcard-body"><div class="rcard-title">Tarte aux pommes</div><div class="pills"><span class="pill pill-time">⏱ 55 min</span><span class="pill pill-med">Moyen</span></div></div></div>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item on"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item" style="position:relative"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span><div class="badge">4</div></div>
+        <div class="nav-item"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- E03 DETAIL -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E03 · Détail recette</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="hero bg2">
+        🍝
+        <div class="hero-fade"></div>
+        <div class="back" style="position:absolute;top:8px;left:12px;background:rgba(255,255,255,.85);padding:4px 10px;border-radius:18px;font-size:11px;">← Retour</div>
+      </div>
+      <div style="padding:8px 14px 0;flex-shrink:0;">
+        <div style="font-family:'Lora',serif;font-size:17px;font-weight:700;color:var(--ink);">Pâtes Carbonara</div>
+        <div class="pills" style="margin-top:5px;margin-bottom:6px;">
+          <span class="pill pill-time">⏱ 25 min</span>
+          <span class="pill pill-easy">Facile</span>
+          <span class="pill pill-cat">🍽️ Plat</span>
+          <span class="pill pill-cat">👥 4 pers.</span>
+        </div>
+      </div>
+      <div class="scroll">
+        <div class="sec-title">Ingrédients</div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);padding:4px 12px;box-shadow:var(--shadow);">
+          <div class="ingr-row"><span class="ingr-name">Spaghetti</span><span class="ingr-qty">400 g</span></div>
+          <div class="ingr-row"><span class="ingr-name">Lardons fumés</span><span class="ingr-qty">200 g</span></div>
+          <div class="ingr-row"><span class="ingr-name">Parmesan râpé</span><span class="ingr-qty">80 g</span></div>
+          <div class="ingr-row"><span class="ingr-name">Œufs entiers</span><span class="ingr-qty">3 pièces</span></div>
+          <div class="ingr-row"><span class="ingr-name">Crème fraîche</span><span class="ingr-qty">2 c.à.s</span></div>
+          <div class="ingr-row"><span class="ingr-name">Poivre noir</span><span class="ingr-qty">à goût</span></div>
+        </div>
+        <div class="sec-title" style="margin-top:4px;">Préparation</div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);padding:8px 12px;box-shadow:var(--shadow);">
+          <div class="step-row"><div class="step-n">1</div><div class="step-txt">Cuire les spaghetti al dente dans une grande casserole d'eau bouillante salée.</div></div>
+          <div class="step-row"><div class="step-n">2</div><div class="step-txt">Faire revenir les lardons à sec jusqu'à ce qu'ils soient bien dorés.</div></div>
+          <div class="step-row"><div class="step-n">3</div><div class="step-txt">Battre les œufs avec le parmesan et la crème. Poivrer généreusement.</div></div>
+          <div class="step-row"><div class="step-n">4</div><div class="step-txt">Hors du feu, mélanger les pâtes, les lardons puis la sauce.</div></div>
+        </div>
+      </div>
+      <div class="cta">📅 Ajouter au menu</div>
+    </div></div>
+  </div>
+
+  <!-- E04 BOTTOM SHEET -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E04 · Ajouter au menu</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="sheet-bg"></div>
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div style="padding:0 16px;">
+          <div style="font-family:'Lora',serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;">Pâtes Carbonara</div>
+          <div style="font-size:10px;color:var(--ink-light);margin-bottom:13px;">Choisissez le créneau souhaité</div>
+
+          <div style="font-size:9px;font-weight:700;color:var(--ink-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;">Jour</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:13px;">
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Lun</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--green-deep);font-size:10px;color:white;font-weight:600;">Mar</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Mer</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Jeu</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Ven</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Sam</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Dim</div>
+          </div>
+
+          <div style="font-size:9px;font-weight:700;color:var(--ink-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;">Repas</div>
+          <div style="display:flex;gap:6px;margin-bottom:13px;">
+            <div style="flex:1;padding:8px;border-radius:9px;background:var(--cream);text-align:center;font-size:10px;color:var(--ink-mid);">🌅 Matin</div>
+            <div style="flex:1;padding:8px;border-radius:9px;background:var(--cream);text-align:center;font-size:10px;color:var(--ink-mid);">☀️ Midi</div>
+            <div style="flex:1;padding:8px;border-radius:9px;background:var(--green-deep);text-align:center;font-size:10px;color:white;font-weight:600;">🌙 Soir</div>
+          </div>
+
+          <div class="persons-row" style="margin-bottom:13px;">
+            <span class="p-lbl">👥 Personnes</span>
+            <div class="p-ctrl">
+              <div class="p-btn">−</div>
+              <span class="p-val">4</span>
+              <div class="p-btn">+</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta">✓ Confirmer</div>
+        <div class="cta-outline">Annuler</div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- E05 COURSES -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E05 · Liste de courses</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="topbar-title">Liste de courses</div>
+          <span style="font-size:10px;color:var(--green-soft);font-weight:600;">3 / 14 ✓</span>
+        </div>
+        <div class="topbar-sub">4 recettes · semaine du 3 mars</div>
+      </div>
+      <div class="budget-bar">
+        <div><div class="budget-lbl">Budget estimé</div><div class="budget-val">~28 €</div></div>
+        <div style="text-align:right;">
+          <div class="budget-lbl">Progression</div>
+          <div class="budget-prog-wrap"><div class="budget-prog" style="width:21%"></div></div>
+          <div class="budget-lbl" style="margin-top:2px;">21%</div>
+        </div>
+      </div>
+      <div class="scroll">
+        <div class="courses-sec">🥦 Fruits &amp; Légumes</div>
+        <div class="course-item"><div class="chk done">✓</div><span class="c-name done">Tomates cerises</span><span class="c-qty">250 g</span></div>
+        <div class="course-item"><div class="chk done">✓</div><span class="c-name done">Courgettes</span><span class="c-qty">2 pcs</span></div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Carottes</span><span class="c-qty">300 g</span></div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Citron</span><span class="c-qty">2 pcs</span></div>
+        <div class="courses-sec">🧀 Produits frais</div>
+        <div class="course-item"><div class="chk done">✓</div><span class="c-name done">Parmesan râpé</span><span class="c-qty">80 g</span></div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Crème fraîche</span><span class="c-qty">20 cl</span></div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Œufs</span><span class="c-qty">6 pcs</span></div>
+        <div class="courses-sec">🥩 Viandes &amp; Poissons</div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Lardons fumés</span><span class="c-qty">200 g</span></div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Saumon frais</span><span class="c-qty">600 g</span></div>
+        <div class="courses-sec">🍝 Épicerie</div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Spaghetti</span><span class="c-qty">400 g</span></div>
+        <div class="course-item"><div class="chk"></div><span class="c-name">Huile d'olive</span><span class="c-qty">1 bouteille</span></div>
+      </div>
+      <div class="cta-share">📤 Partager la liste</div>
+      <div class="nav">
+        <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item on"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span></div>
+        <div class="nav-item"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- E06 MES RECETTES -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E06 · Mes recettes</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="topbar-title">Mes recettes</div>
+          <div style="background:var(--green-deep);color:white;border-radius:9px;padding:5px 10px;font-size:10px;font-weight:600;">+ Créer</div>
+        </div>
+        <div class="topbar-sub">2 recettes personnalisées</div>
+      </div>
+      <div class="scroll">
+        <div class="rcard" style="flex-direction:row;overflow:hidden;border-radius:var(--radius-sm);">
+          <div class="rcard-img bg1" style="width:80px;height:auto;flex-shrink:0;">🫕</div>
+          <div class="rcard-body" style="flex:1;">
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+              <div class="rcard-title">Curry de lentilles</div>
+              <span class="pill pill-perso">Perso</span>
+            </div>
+            <div class="pills"><span class="pill pill-time">⏱ 35 min</span><span class="pill pill-easy">Facile</span></div>
+            <div style="display:flex;gap:5px;margin-top:7px;">
+              <div style="flex:1;background:var(--green-ghost);color:var(--green-deep);border-radius:7px;padding:5px;text-align:center;font-size:10px;font-weight:600;">✏️ Modifier</div>
+              <div style="background:var(--cream-dark);color:var(--ink-light);border-radius:7px;padding:5px 8px;text-align:center;font-size:10px;">🗑️</div>
+            </div>
+          </div>
+        </div>
+        <div class="rcard" style="flex-direction:row;overflow:hidden;border-radius:var(--radius-sm);">
+          <div class="rcard-img bg5" style="width:80px;height:auto;flex-shrink:0;">🥗</div>
+          <div class="rcard-body" style="flex:1;">
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+              <div class="rcard-title">Salade chèvre chaud</div>
+              <span class="pill pill-perso">Perso</span>
+            </div>
+            <div class="pills"><span class="pill pill-time">⏱ 15 min</span><span class="pill pill-easy">Facile</span></div>
+            <div style="display:flex;gap:5px;margin-top:7px;">
+              <div style="flex:1;background:var(--green-ghost);color:var(--green-deep);border-radius:7px;padding:5px;text-align:center;font-size:10px;font-weight:600;">✏️ Modifier</div>
+              <div style="background:var(--cream-dark);color:var(--ink-light);border-radius:7px;padding:5px 8px;text-align:center;font-size:10px;">🗑️</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);border:1.5px dashed var(--ink-ghost);padding:18px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <span style="font-size:28px;opacity:.35;">➕</span>
+          <span style="font-size:10px;color:var(--ink-light);text-align:center;">Créez votre prochaine recette et retrouvez-la ici</span>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item" style="position:relative"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span><div class="badge">4</div></div>
+        <div class="nav-item on"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- E07 CRÉER RECETTE -->
+  <div class="phone-wrap">
+    <div class="phone-tag">E07 · Créer une recette</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="back">← Annuler</div>
+          <div class="topbar-title" style="font-size:14px;">Nouvelle recette</div>
+          <div style="color:var(--green-soft);font-size:11px;font-weight:700;">Sauver</div>
+        </div>
+      </div>
+      <div class="scroll">
+        <div style="background:var(--cream-dark);border-radius:var(--radius-sm);height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;border:1.5px dashed var(--ink-ghost);">
+          <span style="font-size:24px;">📷</span>
+          <span style="font-size:9px;color:var(--ink-light);">Ajouter une photo</span>
+        </div>
+        <div class="f-group"><div class="f-label">Nom *</div><div class="f-input focus">Curry de lentilles corail</div></div>
+        <div class="f-group"><div class="f-label">Description</div><div class="f-input area f-ph">Un curry doux et parfumé…</div></div>
+        <div class="grid2f">
+          <div class="f-group"><div class="f-label">Préparation</div><div class="f-input">10 min</div></div>
+          <div class="f-group"><div class="f-label">Cuisson</div><div class="f-input">25 min</div></div>
+        </div>
+        <div class="grid2f">
+          <div class="f-group"><div class="f-label">Difficulté</div><div class="f-input">Facile ▾</div></div>
+          <div class="f-group"><div class="f-label">Catégorie</div><div class="f-input">Plat ▾</div></div>
+        </div>
+        <div class="sec-title">Ingrédients</div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);padding:4px 12px;box-shadow:var(--shadow);">
+          <div class="ingr-row"><span class="ingr-name">Lentilles corail</span><span class="ingr-qty">250 g ✕</span></div>
+          <div class="ingr-row" style="border:none;padding:6px 0 2px;">
+            <div style="width:100%;background:var(--green-ghost);color:var(--green-deep);border-radius:7px;padding:6px;text-align:center;font-size:10px;font-weight:600;">+ Ajouter ingrédient</div>
+          </div>
+        </div>
+        <div class="sec-title">Étapes</div>
+        <div style="background:var(--white);border-radius:var(--radius-sm);padding:8px 12px;box-shadow:var(--shadow);">
+          <div class="step-row"><div class="step-n">1</div><div class="step-txt">Rincer les lentilles et les faire revenir avec l'oignon émincé.</div></div>
+          <div style="margin-top:6px;background:var(--green-ghost);color:var(--green-deep);border-radius:7px;padding:6px;text-align:center;font-size:10px;font-weight:600;">+ Ajouter une étape</div>
+        </div>
+      </div>
+      <div class="cta">💾 Enregistrer la recette</div>
+    </div></div>
+  </div>
+
+</div><!-- end screens-row -->
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     ÉCRANS D'ERREUR
+════════════════════════════════════════════════════ -->
+<div class="section-label">Écrans d'erreur &amp; états vides</div>
+<div class="screens-row">
+
+  <!-- ERR01 : Aucune recette trouvée -->
+  <div class="phone-wrap">
+    <div class="phone-tag">ERR01 · Recherche sans résultat</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row" style="margin-bottom:8px;">
+          <div class="topbar-title">Recettes</div>
+        </div>
+        <div class="search" style="border-color:var(--ink-ghost);background:var(--white);">🔍 <span style="color:var(--ink);">lasagne</span></div>
+      </div>
+      <div style="padding:8px 12px 4px;flex-shrink:0;">
+        <div class="chips">
+          <div class="chip on">Tout</div>
+          <div class="chip off">🍽️ Plats</div>
+          <div class="chip off">🥦 Végé</div>
+        </div>
+      </div>
+      <div class="empty-state">
+        <div class="empty-ico">🔍</div>
+        <div class="empty-title">Aucune recette trouvée</div>
+        <div class="empty-sub">Aucun résultat pour « lasagne ».<br>Essayez un autre mot-clé ou créez votre propre recette.</div>
+        <div class="empty-btn">+ Créer cette recette</div>
+      </div>
+      <div class="nav">
+        <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item on"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span></div>
+        <div class="nav-item"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ERR02 : Menu vide / courses vides -->
+  <div class="phone-wrap">
+    <div class="phone-tag">ERR02 · Liste de courses vide</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="topbar-title">Liste de courses</div>
+        </div>
+        <div class="topbar-sub">Aucune recette planifiée cette semaine</div>
+      </div>
+      <div class="empty-state">
+        <div class="empty-ico">🛒</div>
+        <div class="empty-title">Liste vide</div>
+        <div class="empty-sub">Votre liste de courses se génère automatiquement lorsque vous planifiez des recettes dans votre menu de la semaine.</div>
+        <div class="empty-btn">📅 Aller au menu semaine</div>
+      </div>
+      <div class="nav">
+        <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item on"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span></div>
+        <div class="nav-item"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ERR03 : Erreur de saisie formulaire -->
+  <div class="phone-wrap">
+    <div class="phone-tag">ERR03 · Erreur de formulaire</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="back">← Annuler</div>
+          <div class="topbar-title" style="font-size:14px;">Nouvelle recette</div>
+          <div style="color:var(--green-soft);font-size:11px;font-weight:700;">Sauver</div>
+        </div>
+      </div>
+      <div class="scroll">
+        <div class="error-banner">
+          <span class="error-ico">⚠️</span>
+          <div>
+            <div class="error-msg">2 champs obligatoires manquants</div>
+            <div class="error-sub">Veuillez remplir le nom de la recette et ajouter au moins un ingrédient avant de sauvegarder.</div>
+          </div>
+        </div>
+        <div class="f-group">
+          <div class="f-label" style="color:var(--error);">Nom * — champ requis</div>
+          <div class="f-input f-ph" style="border-color:var(--error);background:var(--error-pale);">Nom de la recette…</div>
+        </div>
+        <div class="f-group"><div class="f-label">Description</div><div class="f-input f-ph">Description optionnelle…</div></div>
+        <div class="grid2f">
+          <div class="f-group"><div class="f-label">Préparation</div><div class="f-input">10 min</div></div>
+          <div class="f-group"><div class="f-label">Cuisson</div><div class="f-input">25 min</div></div>
+        </div>
+        <div class="sec-title" style="color:var(--error);">Ingrédients — au moins 1 requis</div>
+        <div style="background:var(--error-pale);border:1.5px solid var(--error);border-radius:var(--radius-sm);padding:12px;text-align:center;">
+          <span style="font-size:20px;opacity:.5;">🥕</span>
+          <div style="font-size:10px;color:var(--error);margin-top:4px;font-weight:500;">Aucun ingrédient ajouté</div>
+          <div style="margin-top:8px;background:var(--error);color:white;border-radius:7px;padding:6px;font-size:10px;font-weight:600;">+ Ajouter ingrédient</div>
+        </div>
+      </div>
+      <div class="cta" style="background:#aaa;box-shadow:none;opacity:.7;">💾 Enregistrer la recette</div>
+    </div></div>
+  </div>
+
+  <!-- ERR04 : Confirmation suppression -->
+  <div class="phone-wrap">
+    <div class="phone-tag">ERR04 · Confirmation suppression</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <!-- fond atténué -->
+      <div style="flex:1;opacity:.35;padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden;">
+        <div class="rcard" style="flex-direction:row;overflow:hidden;border-radius:var(--radius-sm);">
+          <div class="rcard-img bg1" style="width:80px;height:auto;flex-shrink:0;">🫕</div>
+          <div class="rcard-body" style="flex:1;"><div class="rcard-title">Curry de lentilles</div></div>
+        </div>
+        <div class="rcard" style="flex-direction:row;overflow:hidden;border-radius:var(--radius-sm);">
+          <div class="rcard-img bg5" style="width:80px;height:auto;flex-shrink:0;">🥗</div>
+          <div class="rcard-body" style="flex:1;"><div class="rcard-title">Salade chèvre chaud</div></div>
+        </div>
+      </div>
+      <!-- Dialog modal -->
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(26,26,26,.5);display:flex;align-items:center;justify-content:center;padding:28px;">
+        <div style="background:white;border-radius:18px;padding:22px 20px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.25);">
+          <div style="font-size:36px;text-align:center;margin-bottom:10px;">🗑️</div>
+          <div style="font-family:'Lora',serif;font-size:14px;font-weight:700;color:var(--ink);text-align:center;margin-bottom:6px;">Supprimer la recette ?</div>
+          <div style="font-size:11px;color:var(--ink-mid);text-align:center;line-height:1.5;margin-bottom:18px;">« Curry de lentilles » sera supprimée définitivement. Cette action est irréversible.</div>
+          <div style="background:var(--error);color:white;border-radius:10px;padding:10px;text-align:center;font-size:12px;font-weight:600;margin-bottom:8px;cursor:pointer;">Supprimer</div>
+          <div style="background:var(--cream);color:var(--ink-mid);border-radius:10px;padding:10px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;">Annuler</div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ERR05 : Mes recettes vides -->
+  <div class="phone-wrap">
+    <div class="phone-tag">ERR05 · Mes recettes vides</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="topbar">
+        <div class="topbar-row">
+          <div class="topbar-title">Mes recettes</div>
+          <div style="background:var(--green-deep);color:white;border-radius:9px;padding:5px 10px;font-size:10px;font-weight:600;">+ Créer</div>
+        </div>
+        <div class="topbar-sub">Aucune recette personnalisée</div>
+      </div>
+      <div class="empty-state">
+        <div class="empty-ico">📝</div>
+        <div class="empty-title">Aucune recette créée</div>
+        <div class="empty-sub">Vous n'avez pas encore créé de recette personnalisée. Commencez par ajouter votre première recette !</div>
+        <div class="empty-btn">+ Créer ma première recette</div>
+      </div>
+      <div class="nav">
+        <div class="nav-item"><span class="nav-icon">📅</span><span class="nav-txt">Semaine</span></div>
+        <div class="nav-item"><span class="nav-icon">🍳</span><span class="nav-txt">Recettes</span></div>
+        <div class="nav-item"><span class="nav-icon">🛒</span><span class="nav-txt">Courses</span></div>
+        <div class="nav-item on"><span class="nav-icon">⭐</span><span class="nav-txt">Mes recettes</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ERR06 : Conflit créneau déjà occupé -->
+  <div class="phone-wrap">
+    <div class="phone-tag">ERR06 · Créneau déjà occupé</div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span>📶 🔋</span></div>
+      <div class="sheet-bg"></div>
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div style="padding:0 16px;">
+          <div style="font-family:'Lora',serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;">Ratatouille</div>
+          <div style="font-size:10px;color:var(--ink-light);margin-bottom:10px;">Choisissez le créneau souhaité</div>
+          <div class="warn-banner" style="margin-bottom:12px;">
+            <span class="warn-ico">⚠️</span>
+            <div>
+              <div class="warn-msg">Créneau déjà occupé</div>
+              <div class="warn-sub">Lundi soir est déjà pris par « Pâtes Carbonara ». Voulez-vous le remplacer ou choisir un autre créneau ?</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;">
+            <div style="padding:5px 8px;border-radius:7px;background:var(--green-deep);font-size:10px;color:white;font-weight:600;">Lun</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Mar</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Mer</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Jeu</div>
+            <div style="padding:5px 8px;border-radius:7px;background:var(--cream-dark);font-size:10px;color:var(--ink-mid);">Ven</div>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:12px;">
+            <div style="flex:1;padding:8px;border-radius:9px;background:var(--cream);text-align:center;font-size:10px;color:var(--ink-mid);">🌅 Matin</div>
+            <div style="flex:1;padding:8px;border-radius:9px;background:var(--cream);text-align:center;font-size:10px;color:var(--ink-mid);">☀️ Midi</div>
+            <div style="flex:1;padding:8px;border-radius:9px;background:var(--warning-pale);border:1.5px solid var(--warning);text-align:center;font-size:10px;color:var(--warning);font-weight:600;">🌙 Soir ⚠️</div>
+          </div>
+        </div>
+        <div style="background:var(--warning);color:white;border-radius:12px;padding:10px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;margin:0 12px 8px;">🔄 Remplacer la recette existante</div>
+        <div class="cta-outline" style="margin-top:0;">Choisir un autre créneau</div>
+      </div>
+    </div></div>
+  </div>
+
+</div><!-- end error screens-row -->
+
+<!-- LÉGENDE -->
+<div class="divider"></div>
+<div class="legend">
+  <h2>Guide des écrans</h2>
+  <div class="legend-grid">
+    <div class="legend-item"><div class="legend-id">E01 · Menu Semaine</div><div class="legend-desc">Planning hebdomadaire avec repas matin/midi/soir. Badge de courses en temps réel.</div></div>
+    <div class="legend-item"><div class="legend-id">E02 · Catalogue</div><div class="legend-desc">Grille 2 colonnes, filtres par catégorie, barre de recherche plein texte.</div></div>
+    <div class="legend-item"><div class="legend-id">E03 · Détail recette</div><div class="legend-desc">Photo, ingrédients avec quantités, étapes numérotées, bouton ajout au menu.</div></div>
+    <div class="legend-item"><div class="legend-id">E04 · Ajouter au menu</div><div class="legend-desc">Bottom sheet : sélection jour, type de repas, nombre de personnes.</div></div>
+    <div class="legend-item"><div class="legend-id">E05 · Liste de courses</div><div class="legend-desc">Articles triés par catégorie, cases à cocher, budget estimé, partage Android.</div></div>
+    <div class="legend-item"><div class="legend-id">E06 · Mes recettes</div><div class="legend-desc">Recettes personnalisées en liste, modifier / supprimer, création rapide.</div></div>
+    <div class="legend-item"><div class="legend-id">E07 · Créer une recette</div><div class="legend-desc">Formulaire complet : photo, nom, temps, difficulté, ingrédients, étapes.</div></div>
+    <div class="legend-item"><div class="legend-id">ERR01 · Recherche vide</div><div class="legend-desc">Aucun résultat trouvé — propose de créer la recette manquante.</div></div>
+    <div class="legend-item"><div class="legend-id">ERR02 · Courses vides</div><div class="legend-desc">Menu non planifié — redirige vers le planning semaine.</div></div>
+    <div class="legend-item"><div class="legend-id">ERR03 · Formulaire invalide</div><div class="legend-desc">Champs requis manquants — bannière d'erreur + champs en rouge.</div></div>
+    <div class="legend-item"><div class="legend-id">ERR04 · Suppression</div><div class="legend-desc">Modale de confirmation avant suppression définitive d'une recette.</div></div>
+    <div class="legend-item"><div class="legend-id">ERR05 · Mes recettes vides</div><div class="legend-desc">Premier lancement — état vide avec incitation à créer la première recette.</div></div>
+    <div class="legend-item"><div class="legend-id">ERR06 · Créneau occupé</div><div class="legend-desc">Conflit de planning — avertissement et choix de remplacer ou changer de créneau.</div></div>
+  </div>
+</div>
+
+</body>
+</html>
